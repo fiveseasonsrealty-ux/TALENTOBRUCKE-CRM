@@ -39,7 +39,17 @@ export default function EvaluationPage() {
     const res = await fetch("/api/leads", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({...data,...tracking, landing_page: window.location.pathname})
+      body: JSON.stringify({
+  ...data,
+  phone:
+    data.country === "Mexico"
+      ? `+52${data.phone}`
+      : data.country === "Colombia"
+      ? `+57${data.phone}`
+      : data.phone,
+  ...tracking,
+  landing_page: window.location.pathname
+})
     });
     setStatus(res.ok ? "done" : "error");
   }
@@ -139,7 +149,41 @@ export default function EvaluationPage() {
             {step===4 && <>
               <h2>Datos de contacto</h2>
               <Field label="Correo electrónico"><input type="email" value={data.email} onChange={e=>set("email",e.target.value)} /></Field>
-              <Field label="WhatsApp / teléfono"><input value={data.phone} onChange={e=>set("phone",e.target.value)} /></Field>
+             <Field label="WhatsApp / teléfono">
+  <div style={{display:"flex", gap:"8px"}}>
+    <div style={{
+      padding:"13px 14px",
+      border:"1px solid #CBD5E1",
+      borderRadius:"9px",
+      background:"#F8FAFC",
+      whiteSpace:"nowrap",
+      fontWeight:700
+    }}>
+      {data.country === "Mexico" ? "🇲🇽 +52" :
+       data.country === "Colombia" ? "🇨🇴 +57" :
+       "🌎 +"}
+    </div>
+
+    <input
+      type="tel"
+      value={data.phone}
+      onChange={e=>set("phone", e.target.value.replace(/\D/g,""))}
+      placeholder={
+        data.country === "Mexico"
+          ? "Ej. 5512345678"
+          : data.country === "Colombia"
+          ? "Ej. 3001234567"
+          : "Número de teléfono"
+      }
+    />
+  </div>
+
+  <p className="notice">
+    Escribe solo tu número. El sistema añadirá automáticamente el código internacional.
+    {data.country === "Mexico" && " México: +52"}
+    {data.country === "Colombia" && " Colombia: +57"}
+  </p>
+</Field>
               <div className="field">
                 <label><input type="checkbox" checked={data.consent} onChange={e=>set("consent",e.target.checked)} /> Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.</label>
               </div>
