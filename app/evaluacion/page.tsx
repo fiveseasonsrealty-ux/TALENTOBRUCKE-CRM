@@ -30,6 +30,7 @@ export default function EvaluationPage() {
   const [step,setStep] = useState(1);
   const [data,setData] = useState<any>(empty);
   const [status,setStatus] = useState<"idle"|"sending"|"done"|"error"|"consent-error">("idle");
+  const [consentError,setConsentError] = useState(false);
   const tracking = useMemo(() => params(), []);
 
   const set = (name:string, value:any) => setData((d:any)=>({...d,[name]:value}));
@@ -183,13 +184,12 @@ export default function EvaluationPage() {
     {data.country === "Mexico" && " México: +52"}
     {data.country === "Colombia" && " Colombia: +57"}
   </p>
-</Field>
 <div className="field">
   <label
     style={{
       display: "flex",
       alignItems: "flex-start",
-      gap: "14px",
+      gap: "16px",
       cursor: "pointer",
       fontWeight: 600,
       lineHeight: 1.5
@@ -198,41 +198,70 @@ export default function EvaluationPage() {
     <input
       type="checkbox"
       checked={data.consent}
-      onChange={e => set("consent", e.target.checked)}
+      onChange={e => {
+        set("consent", e.target.checked);
+        if (e.target.checked) setConsentError(false);
+      }}
       style={{
-        width: "26px",
-        height: "26px",
-        minWidth: "26px",
-        marginTop: "2px",
-        cursor: "pointer",
-        accentColor: "#0B315D"
+        appearance: "none",
+        WebkitAppearance: "none",
+        width: "32px",
+        height: "32px",
+        minWidth: "32px",
+        border: "3px solid #0B315D",
+        borderRadius: "6px",
+        backgroundColor: data.consent ? "#0B315D" : "#FFFFFF",
+        cursor: "pointer"
       }}
     />
+
     <span>
       Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad
       de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.
     </span>
   </label>
 
-  {!data.consent && status === "consent-error" && (
-    <p
+  {data.consent && (
+    <div
       style={{
-        color: "#DC2626",
-        fontWeight: 700,
-        marginTop: "10px",
-        marginBottom: "4px"
+        marginLeft: "8px",
+        marginTop: "-38px",
+        width: "32px",
+        height: "32px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#FFFFFF",
+        fontSize: "22px",
+        fontWeight: 900,
+        pointerEvents: "none"
+      }}
+    >
+      ✓
+    </div>
+  )}
+
+  {consentError && (
+    <div
+      role="alert"
+      style={{
+        marginTop: "14px",
+        padding: "12px 16px",
+        border: "2px solid #DC2626",
+        borderRadius: "8px",
+        backgroundColor: "#FEF2F2",
+        color: "#B91C1C",
+        fontWeight: 700
       }}
     >
       ⚠ Debes aceptar la Política de Privacidad antes de enviar tu evaluación.
-    </p>
+    </div>
   )}
 
   <p className="notice">
     Tus datos serán tratados de forma confidencial.
   </p>
 </div>
-
-<div className="form-actions">
   <button
     className="btn secondary"
     disabled={step===1 || status==="sending"}
@@ -256,7 +285,7 @@ export default function EvaluationPage() {
         disabled={!data.email || status==="sending"}
         onClick={() => {
           if (!data.consent) {
-            setStatus("consent-error");
+           setConsentError(true);
             return;
           }
           submit();
