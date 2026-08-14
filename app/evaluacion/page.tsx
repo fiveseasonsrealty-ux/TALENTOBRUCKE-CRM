@@ -262,7 +262,8 @@ export default function EvaluationPage() {
     Tus datos serán tratados de forma confidencial.
   </p>
 </div>
-  <button
+  <div className="form-actions">
+               <button
     className="btn secondary"
     disabled={step===1 || status==="sending"}
     onClick={()=>setStep(s=>Math.max(1,s-1))}
