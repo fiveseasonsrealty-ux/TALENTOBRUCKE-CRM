@@ -29,7 +29,7 @@ function params() {
 export default function EvaluationPage() {
   const [step,setStep] = useState(1);
   const [data,setData] = useState<any>(empty);
-  const [status,setStatus] = useState<"idle"|"sending"|"done"|"error">("idle");
+  const [status,setStatus] = useState<"idle"|"sending"|"done"|"error"|"consent-error">("idle");
   const tracking = useMemo(() => params(), []);
 
   const set = (name:string, value:any) => setData((d:any)=>({...d,[name]:value}));
@@ -184,19 +184,89 @@ export default function EvaluationPage() {
     {data.country === "Colombia" && " Colombia: +57"}
   </p>
 </Field>
-              <div className="field">
-                <label><input type="checkbox" checked={data.consent} onChange={e=>set("consent",e.target.checked)} /> Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.</label>
-              </div>
-              <p className="notice">Tus datos serán tratados de forma confidencial.</p>
-            </>}
+<div className="field">
+  <label
+    style={{
+      display: "flex",
+      alignItems: "flex-start",
+      gap: "14px",
+      cursor: "pointer",
+      fontWeight: 600,
+      lineHeight: 1.5
+    }}
+  >
+    <input
+      type="checkbox"
+      checked={data.consent}
+      onChange={e => set("consent", e.target.checked)}
+      style={{
+        width: "26px",
+        height: "26px",
+        minWidth: "26px",
+        marginTop: "2px",
+        cursor: "pointer",
+        accentColor: "#0B315D"
+      }}
+    />
+    <span>
+      Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad
+      de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.
+    </span>
+  </label>
 
-            <div className="form-actions">
-              <button className="btn secondary" disabled={step===1 || status==="sending"} onClick={()=>setStep(s=>Math.max(1,s-1))}>← ATRÁS</button>
-              {step<4
-                ? <button className="btn" onClick={()=>setStep(s=>Math.min(4,s+1))}>CONTINUAR →</button>
-                : <button className="btn" disabled={!data.consent || !data.email || status==="sending"} onClick={submit}>{status==="sending" ? "ENVIANDO..." : "ENVIAR MI EVALUACIÓN →"}</button>
-              }
-            </div>
+  {!data.consent && status === "consent-error" && (
+    <p
+      style={{
+        color: "#DC2626",
+        fontWeight: 700,
+        marginTop: "10px",
+        marginBottom: "4px"
+      }}
+    >
+      ⚠ Debes aceptar la Política de Privacidad antes de enviar tu evaluación.
+    </p>
+  )}
+
+  <p className="notice">
+    Tus datos serán tratados de forma confidencial.
+  </p>
+</div>
+
+<div className="form-actions">
+  <button
+    className="btn secondary"
+    disabled={step===1 || status==="sending"}
+    onClick={()=>setStep(s=>Math.max(1,s-1))}
+  >
+    ← ATRÁS
+  </button>
+
+  {step<4
+    ? (
+      <button
+        className="btn"
+        onClick={()=>setStep(s=>Math.min(4,s+1))}
+      >
+        CONTINUAR →
+      </button>
+    )
+    : (
+      <button
+        className="btn"
+        disabled={!data.email || status==="sending"}
+        onClick={() => {
+          if (!data.consent) {
+            setStatus("consent-error");
+            return;
+          }
+          submit();
+        }}
+      >
+        {status==="sending" ? "ENVIANDO..." : "ENVIAR MI EVALUACIÓN →"}
+      </button>
+    )
+  }
+</div>
             {status==="error" && <div className="error">No pudimos guardar la evaluación. Inténtalo de nuevo.</div>}
           </div>
         </div>
