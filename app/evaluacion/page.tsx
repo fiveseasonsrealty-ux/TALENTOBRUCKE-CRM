@@ -29,8 +29,7 @@ function params() {
 export default function EvaluationPage() {
   const [step,setStep] = useState(1);
   const [data,setData] = useState<any>(empty);
-  const [status,setStatus] = useState<"idle"|"sending"|"done"|"error"|"consent-error">("idle");
-  const [consentError,setConsentError] = useState(false);
+  const [status,setStatus] = useState<"idle"|"sending"|"done"|"error">("idle");
   const tracking = useMemo(() => params(), []);
 
   const set = (name:string, value:any) => setData((d:any)=>({...d,[name]:value}));
@@ -184,120 +183,20 @@ export default function EvaluationPage() {
     {data.country === "Mexico" && " México: +52"}
     {data.country === "Colombia" && " Colombia: +57"}
   </p>
-          </Field>     
-<div className="field">
-  <label
-    style={{
-      display: "flex",
-      alignItems: "flex-start",
-      gap: "16px",
-      cursor: "pointer",
-      fontWeight: 600,
-      lineHeight: 1.5
-    }}
-  >
-    <input
-      type="checkbox"
-      checked={data.consent}
-      onChange={e => {
-        set("consent", e.target.checked);
-        if (e.target.checked) setConsentError(false);
-      }}
-      style={{
-        appearance: "none",
-        WebkitAppearance: "none",
-        width: "32px",
-        height: "32px",
-        minWidth: "32px",
-        border: "3px solid #0B315D",
-        borderRadius: "6px",
-        backgroundColor: data.consent ? "#0B315D" : "#FFFFFF",
-        cursor: "pointer"
-      }}
-    />
+</Field>
+              <div className="field">
+                <label><input type="checkbox" checked={data.consent} onChange={e=>set("consent",e.target.checked)} /> Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.</label>
+              </div>
+              <p className="notice">Tus datos serán tratados de forma confidencial.</p>
+            </>}
 
-    <span>
-      Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad
-      de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.
-    </span>
-  </label>
-
-  {data.consent && (
-    <div
-      style={{
-        marginLeft: "8px",
-        marginTop: "-38px",
-        width: "32px",
-        height: "32px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "#FFFFFF",
-        fontSize: "22px",
-        fontWeight: 900,
-        pointerEvents: "none"
-      }}
-    >
-      ✓
-    </div>
-  )}
-
-  {consentError && (
-    <div
-      role="alert"
-      style={{
-        marginTop: "14px",
-        padding: "12px 16px",
-        border: "2px solid #DC2626",
-        borderRadius: "8px",
-        backgroundColor: "#FEF2F2",
-        color: "#B91C1C",
-        fontWeight: 700
-      }}
-    >
-      ⚠ Debes aceptar la Política de Privacidad antes de enviar tu evaluación.
-    </div>
-  )}
-
-  <p className="notice">
-    Tus datos serán tratados de forma confidencial.
-  </p>
-</div>
-  <div className="form-actions">
-               <button
-    className="btn secondary"
-    disabled={step===1 || status==="sending"}
-    onClick={()=>setStep(s=>Math.max(1,s-1))}
-  >
-    ← ATRÁS
-  </button>
-
-  {step<4
-    ? (
-      <button
-        className="btn"
-        onClick={()=>setStep(s=>Math.min(4,s+1))}
-      >
-        CONTINUAR →
-      </button>
-    )
-    : (
-      <button
-        className="btn"
-        disabled={!data.email || status==="sending"}
-        onClick={() => {
-          if (!data.consent) {
-           setConsentError(true);
-            return;
-          }
-          submit();
-        }}
-      >
-        {status==="sending" ? "ENVIANDO..." : "ENVIAR MI EVALUACIÓN →"}
-      </button>
-    )
-  }
-</div>
+            <div className="form-actions">
+              <button className="btn secondary" disabled={step===1 || status==="sending"} onClick={()=>setStep(s=>Math.max(1,s-1))}>← ATRÁS</button>
+              {step<4
+                ? <button className="btn" onClick={()=>setStep(s=>Math.min(4,s+1))}>CONTINUAR →</button>
+                : <button className="btn" disabled={!data.consent || !data.email || status==="sending"} onClick={submit}>{status==="sending" ? "ENVIANDO..." : "ENVIAR MI EVALUACIÓN →"}</button>
+              }
+            </div>
             {status==="error" && <div className="error">No pudimos guardar la evaluación. Inténtalo de nuevo.</div>}
           </div>
         </div>
