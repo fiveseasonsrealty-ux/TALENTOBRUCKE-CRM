@@ -231,10 +231,11 @@ const tracking = useMemo(() => params(), []);
     className="btn"
     disabled={!data.email || status==="sending"}
     onClick={() => {
-      if (!data.consent) {
-        setConsentError(true);
-        return;
-      }
+     if (!data.consent) {
+  setConsentError(true);
+  window.alert("Debes aceptar la Política de Privacidad antes de enviar tu evaluación.");
+  return;
+}
 
       setConsentError(false);
       submit();
