@@ -185,7 +185,18 @@ export default function EvaluationPage() {
   </p>
 </Field>
               <div className="field">
-                <label><input type="checkbox" checked={data.consent} onChange={e=>set("consent",e.target.checked)} /> Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.</label>
+                <label><input
+  type="checkbox"
+  checked={data.consent}
+  onChange={e=>set("consent",e.target.checked)}
+  style={{
+    width: "28px",
+    height: "28px",
+    minWidth: "28px",
+    cursor: "pointer",
+    accentColor: "#0A2A52"
+  }}
+/> Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.</label>
               </div>
               <p className="notice">Tus datos serán tratados de forma confidencial.</p>
             </>}
