@@ -52,9 +52,25 @@ export function calculateScore(lead: LeadInput) {
   if (!["Mexico", "Colombia"].includes(lead.country)) flags.push("CountryOutsideTarget");
 
   let classification = "LOW_PRIORITY";
-  if (score >= 75) classification = "HIGH_POTENTIAL";
-  else if (score >= 60) classification = "QUALIFIED_LEAD";
-  else if (score >= 40) classification = "NURTURE_LEAD";
+
+const highIntent =
+  lead.mobility === "yes" &&
+  lead.learn_german === "yes" &&
+  lead.germany_interest !== "exploring";
+
+const mediumIntent =
+  (lead.mobility === "yes" || lead.mobility === "maybe") &&
+  (lead.learn_german === "yes" || lead.learn_german === "maybe");
+
+if (score >= 80 && highIntent) {
+  classification = "HIGH_POTENTIAL";
+} else if (score >= 65 && mediumIntent) {
+  classification = "POTENTIAL_CANDIDATE";
+} else if (score >= 45) {
+  classification = "QUALIFIED_LEAD";
+} else {
+  classification = "LOW_PRIORITY";
+}
 
   return { score, classification, flags };
 }
