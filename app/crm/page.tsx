@@ -4,6 +4,7 @@ export const dynamic = "force-dynamic";
 
 function badge(c:string) {
   if (c==="HIGH_POTENTIAL") return "badge high";
+  if (c==="POTENTIAL_CANDIDATE") return "badge qualified";
   if (c==="QUALIFIED_LEAD") return "badge qualified";
   if (c==="NURTURE_LEAD") return "badge nurture";
   return "badge low";
@@ -11,6 +12,7 @@ function badge(c:string) {
 function label(c:string) {
   return ({
     HIGH_POTENTIAL:"Candidato prioritario",
+    POTENTIAL_CANDIDATE:"Candidato potencial",
     QUALIFIED_LEAD:"Lead cualificado",
     NURTURE_LEAD:"Lead en desarrollo",
     LOW_PRIORITY:"No prioritario"
