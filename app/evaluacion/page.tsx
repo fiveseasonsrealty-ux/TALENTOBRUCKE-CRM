@@ -227,7 +227,7 @@ const tracking = useMemo(() => params(), []);
               <button className="btn secondary" disabled={step===1 || status==="sending"} onClick={()=>setStep(s=>Math.max(1,s-1))}>← ATRÁS</button>
               {step<4
                 ? <button className="btn" onClick={()=>setStep(s=>Math.min(4,s+1))}>CONTINUAR →</button>
-                : : <button
+                : <button
     className="btn"
     disabled={!data.email || status==="sending"}
     onClick={() => {
