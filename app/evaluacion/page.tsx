@@ -52,7 +52,18 @@ const tracking = useMemo(() => params(), []);
   landing_page: window.location.pathname
 })
     });
-    setStatus(res.ok ? "done" : "error");
+    if (res.ok) {
+  if (
+    typeof window !== "undefined" &&
+    typeof (window as any).fbq === "function"
+  ) {
+    (window as any).fbq("track", "Lead");
+  }
+
+  setStatus("done");
+} else {
+  setStatus("error");
+}
   }
 
   if (status === "done") {
