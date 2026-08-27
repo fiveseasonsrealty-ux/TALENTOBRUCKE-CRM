@@ -69,7 +69,18 @@ img {
   justify-content: space-between;
   gap: 28px;
 }
+.header-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
 
+.header-logo img {
+  display: block;
+  width: auto;
+  height: 54px;
+  object-fit: contain;
+}
 .brand-wrap {
   display: flex;
   flex-direction: column;
@@ -960,7 +971,9 @@ th {
   .header-inner {
     min-height: 68px;
   }
-
+.header-logo img {
+  height: 42px;
+}
   .nav {
     display: none;
   }
