@@ -1,16 +1,19 @@
 import Link from "next/link";
-
+import Image from "next/image";
 export default function Home() {
   return (
     <>
       <header className="header">
         <div className="container header-inner">
-          <div className="brand-wrap">
-            <div className="brand">
-              TALENTO<span>BRÜCKE</span>
-            </div>
-            <div className="brand-sub">CAREER MIGRATION PARTNER</div>
-          </div>
+       <Link href="/" className="header-logo" aria-label="TalentoBrücke - Inicio">
+  <Image
+    src="/logo-talentobrucke.png"
+    alt="TalentoBrücke - Career Migration Partner"
+    width={260}
+    height={88}
+    priority
+  />
+</Link>  
 
           <nav className="nav">
             <a href="#porque-alemania">¿Por qué Alemania?</a>
