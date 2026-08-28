@@ -273,47 +273,112 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="como-funciona" className="section light-section">
-          <div className="container">
-            <div className="section-heading centered">
-              <p className="eyebrow">¿CÓMO FUNCIONA?</p>
-              <h2>Un camino claro empieza por entender tu punto de partida.</h2>
-            </div>
+       <section id="como-funciona" className="section how-section">
+  <div className="container">
 
-            <div className="steps-grid">
-              <article className="step-card">
-                <span>01</span>
-                <h3>EVALÚA TU PERFIL</h3>
-                <p>Conocemos tu formación, experiencia, profesión e idiomas.</p>
-              </article>
+    <div className="section-heading centered reveal reveal-up">
+      <p className="eyebrow">¿CÓMO FUNCIONA?</p>
 
-              <article className="step-card">
-                <span>02</span>
-                <h3>ANALIZAMOS TU SITUACIÓN</h3>
-                <p>
-                  Revisamos los principales factores que pueden influir en tu
-                  camino profesional.
-                </p>
-              </article>
+      <h2>UN CAMINO CLARO EMPIEZA POR ENTENDER TU PUNTO DE PARTIDA.</h2>
 
-              <article className="step-card">
-                <span>03</span>
-                <h3>DEFINE TU CAMINO</h3>
-                <p>
-                  Identificamos necesidades de preparación según tu situación.
-                </p>
-              </article>
+      <p className="section-intro how-intro">
+        TalentoBrücke comienza analizando tu situación profesional para ayudarte
+        a comprender qué aspectos de tu perfil pueden ser relevantes para
+        explorar oportunidades en el mercado laboral alemán y qué preparación
+        podrías necesitar.
+      </p>
+    </div>
 
-              <article className="step-card">
-                <span>04</span>
-                <h3>PREPÁRATE PARA ALEMANIA</h3>
-                <p>
-                  Avanza con mayor claridad, preparación y expectativas realistas.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
+    <div className="how-process">
+
+      <article className="how-card reveal reveal-up">
+        <div className="how-number">01</div>
+
+        <div className="how-content">
+          <h3>EVALÚA TU PERFIL</h3>
+
+          <p>
+            Cuéntanos sobre tu formación, experiencia laboral, profesión,
+            idiomas y objetivos profesionales.
+          </p>
+
+          <strong>Conocemos tu punto de partida.</strong>
+        </div>
+      </article>
+
+      <div className="how-connector" aria-hidden="true">→</div>
+
+      <article className="how-card reveal reveal-up">
+        <div className="how-number">02</div>
+
+        <div className="how-content">
+          <h3>ANALIZAMOS TU SITUACIÓN</h3>
+
+          <p>
+            Revisamos los principales factores que pueden influir en tu acceso
+            al mercado laboral alemán e identificamos fortalezas y aspectos que
+            podrían requerir preparación.
+          </p>
+
+          <strong>
+            Entendemos dónde estás y qué podrías necesitar.
+          </strong>
+        </div>
+      </article>
+
+      <div className="how-connector" aria-hidden="true">→</div>
+
+      <article className="how-card reveal reveal-up">
+        <div className="how-number">03</div>
+
+        <div className="how-content">
+          <h3>DEFINE TU CAMINO</h3>
+
+          <p>
+            Dependiendo de tu perfil, pueden existir diferentes necesidades de
+            preparación relacionadas con idioma, reconocimiento de
+            cualificaciones, documentación profesional u otros aspectos.
+          </p>
+
+          <strong>
+            No todos los candidatos necesitan recorrer el mismo camino.
+          </strong>
+        </div>
+      </article>
+
+      <div className="how-connector" aria-hidden="true">→</div>
+
+      <article className="how-card reveal reveal-up">
+        <div className="how-number">04</div>
+
+        <div className="how-content">
+          <h3>PREPÁRATE PARA ALEMANIA</h3>
+
+          <p>
+            Si tu perfil presenta potencial y decides continuar, el objetivo es
+            avanzar hacia una preparación profesional más estructurada para
+            explorar oportunidades en el mercado laboral alemán.
+          </p>
+
+          <strong>
+            Con mayor claridad. Con preparación. Sin falsas promesas.
+          </strong>
+        </div>
+      </article>
+
+    </div>
+
+    <div className="how-closing reveal reveal-up">
+      <p>
+        No empezamos prometiéndote un empleo.
+        <strong>
+          {" "}Empezamos entendiendo dónde estás y qué necesitas para avanzar.
+        </strong>
+      </p>
+    </div>
+
+  </div>
+</section>
 
         <section id="para-quien" className="section">
           <div className="container">
