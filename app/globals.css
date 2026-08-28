@@ -1037,7 +1037,100 @@ th {
 /* =========================
    TABLET
 ========================= */
+/* =========================
+   READINESS - PROFILE
+========================= */
 
+.readiness-strip {
+  background: var(--navy);
+  color: white;
+  padding: 56px 0;
+}
+
+.readiness-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 1.7fr 0.75fr;
+  gap: 38px;
+  align-items: center;
+}
+
+.readiness-heading {
+  max-width: 360px;
+}
+
+.readiness-eyebrow {
+  margin: 0 0 10px;
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.readiness-heading h2 {
+  margin: 0;
+  color: white;
+  font-size: 30px;
+  line-height: 1.05;
+}
+
+.readiness-heading h2 span {
+  color: var(--gold);
+}
+
+.readiness-copy {
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.readiness-factors {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.readiness-factor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.factor-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.readiness-factor strong {
+  color: white;
+  font-size: 10px;
+  line-height: 1.25;
+  letter-spacing: 0.2px;
+}
+
+.readiness-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.readiness-action .btn {
+  width: 100%;
+  max-width: 230px;
+  min-height: 58px;
+  padding: 14px 18px;
+  text-align: left;
+  line-height: 1.25;
+}
 @media (max-width: 1000px) {
   .germany-layout {
   grid-template-columns: 1fr;
@@ -1073,6 +1166,22 @@ th {
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+ .readiness-inner {
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.readiness-heading {
+  max-width: 620px;
+}
+
+.readiness-factors {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.readiness-action {
+  justify-content: flex-start;
+} 
 }
 
 /* =========================
@@ -1083,7 +1192,22 @@ th {
   .migration-paths {
   grid-template-columns: 1fr;
 }
+.readiness-strip {
+  padding: 44px 0;
+}
 
+.readiness-heading h2 {
+  font-size: 27px;
+}
+
+.readiness-factors {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 14px;
+}
+
+.readiness-action .btn {
+  max-width: 100%;
+}
 .section-subtitle {
   font-size: 19px;
 }
