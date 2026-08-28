@@ -16,8 +16,8 @@ export default function ScrollReveal() {
         });
       },
     {
-  threshold: 0.12,
-  rootMargin: "0px 0px -25% 0px",
+  threshold: 0.25,
+  rootMargin: "0px 0px -30% 0px",
 } 
     );
 
