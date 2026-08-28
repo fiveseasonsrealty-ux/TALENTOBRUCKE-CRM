@@ -902,7 +902,7 @@ flex-direction: column;
 }
 
 .audience-image {
-  min-height: 330px;
+  min-height: 360px;
   border-radius: 22px;
   overflow: hidden;
 
@@ -915,7 +915,7 @@ flex-direction: column;
     url("/equipo-talentobrucke.png");
 
   background-size: cover;
-  background-position: center 42%;
+  background-position: center 24%;
   background-repeat: no-repeat;
 
   box-shadow: 0 20px 50px rgba(7, 29, 58, 0.12);
