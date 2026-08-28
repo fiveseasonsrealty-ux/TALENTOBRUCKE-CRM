@@ -384,31 +384,119 @@ export default function Home() {
   </div>
 </section>
 
-        <section id="para-quien" className="section">
-          <div className="container">
-            <div className="section-heading centered">
-              <p className="eyebrow">¿PARA QUIÉN ES TALENTOBRÜCKE?</p>
-              <h2>Perfiles que buscamos inicialmente.</h2>
-            </div>
+       <section id="para-quien" className="section audience-section">
+  <div className="container">
 
-            <p className="section-intro">
-              Buscamos profesionales y técnicos latinoamericanos con formación y
-              experiencia laboral que estén considerando seriamente desarrollar
-              su carrera en Alemania.
-            </p>
+    <div className="section-heading centered reveal reveal-up">
+      <p className="eyebrow">¿PARA QUIÉN ES TALENTOBRÜCKE?</p>
 
-            <div className="profiles-grid">
-              <div className="profile-card">Ingeniería mecánica</div>
-              <div className="profile-card">
-                Ingeniería eléctrica y electrónica
-              </div>
-              <div className="profile-card">Ingeniería industrial</div>
-              <div className="profile-card">IT y tecnología</div>
-              <div className="profile-card">Técnicos especializados</div>
-              <div className="profile-card">Otros perfiles profesionales</div>
-            </div>
-          </div>
-        </section>
+      <h2>
+        PROFESIONALES QUE ESTÁN CONSIDERANDO SERIAMENTE
+        DESARROLLAR SU CARRERA EN ALEMANIA.
+      </h2>
+
+      <p className="section-intro audience-intro">
+        Buscamos profesionales y técnicos latinoamericanos con formación y
+        experiencia laboral que estén considerando seriamente desarrollar su
+        carrera en Alemania.
+      </p>
+
+      <p className="section-intro audience-intro-secondary">
+        TalentoBrücke está orientado especialmente a perfiles técnicos,
+        tecnológicos e industriales que quieran conocer su punto de partida y
+        prepararse de forma profesional para explorar oportunidades en el
+        mercado laboral alemán.
+      </p>
+    </div>
+
+    <div className="audience-visual reveal reveal-up">
+      <div className="audience-image"></div>
+    </div>
+
+    <div className="audience-grid">
+
+      <article className="audience-card reveal reveal-up">
+        <div className="audience-icon">01</div>
+        <h3>INGENIERÍA MECÁNICA</h3>
+        <p>
+          Profesionales vinculados con diseño, producción, mantenimiento,
+          manufactura, maquinaria y procesos industriales.
+        </p>
+      </article>
+
+      <article className="audience-card reveal reveal-up">
+        <div className="audience-icon">02</div>
+        <h3>INGENIERÍA ELÉCTRICA Y ELECTRÓNICA</h3>
+        <p>
+          Profesionales relacionados con sistemas eléctricos, electrónica,
+          automatización, control y tecnologías industriales.
+        </p>
+      </article>
+
+      <article className="audience-card reveal reveal-up">
+        <div className="audience-icon">03</div>
+        <h3>INGENIERÍA INDUSTRIAL</h3>
+        <p>
+          Perfiles vinculados con producción, procesos, calidad, operaciones,
+          logística y mejora continua.
+        </p>
+      </article>
+
+      <article className="audience-card reveal reveal-up">
+        <div className="audience-icon">04</div>
+        <h3>IT Y TECNOLOGÍA</h3>
+        <p>
+          Profesionales de software, sistemas, infraestructura, datos y otras
+          especialidades tecnológicas.
+        </p>
+      </article>
+
+      <article className="audience-card reveal reveal-up">
+        <div className="audience-icon">05</div>
+        <h3>TÉCNICOS ESPECIALIZADOS</h3>
+        <p>
+          Profesionales con formación técnica y experiencia práctica en áreas
+          industriales, eléctricas, mecánicas, automatización u otras
+          especialidades.
+        </p>
+      </article>
+
+      <article className="audience-card reveal reveal-up">
+        <div className="audience-icon">06</div>
+        <h3>OTROS PERFILES PROFESIONALES</h3>
+        <p>
+          También podemos evaluar otros perfiles profesionales. Cada caso se
+          analiza de manera individual.
+        </p>
+      </article>
+
+    </div>
+
+    <div className="audience-fit reveal reveal-up">
+      <h3>TALENTOBRÜCKE PUEDE SER PARA TI SI...</h3>
+
+      <div className="audience-fit-grid">
+        <div>✓ Tienes formación profesional, técnica o universitaria.</div>
+        <div>✓ Cuentas con experiencia laboral.</div>
+        <div>✓ Estás considerando seriamente desarrollar tu carrera en Alemania.</div>
+        <div>✓ Entiendes que un proceso profesional internacional requiere preparación.</div>
+        <div>✓ Estás dispuesto a desarrollar las competencias que tu perfil pueda necesitar.</div>
+        <div>✓ Buscas orientación profesional y transparencia, no promesas fáciles.</div>
+      </div>
+    </div>
+
+    <div className="audience-closing reveal reveal-up">
+      <p>
+        No buscamos candidatos para llenar una base de datos.
+        <strong>
+          {" "}Buscamos profesionales que quieran evaluar seriamente si Alemania
+          puede formar parte de su futuro profesional.
+        </strong>
+      </p>
+    </div>
+
+  </div>
+</section>
 
         <section className="section light-section">
           <div className="container transparency-grid">
