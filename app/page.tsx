@@ -184,31 +184,60 @@ export default function Home() {
 </section>
 
         <section className="readiness-strip">
-          <div className="container">
-            <div className="readiness-grid">
-              <div>
-                <p className="eyebrow light">LA OPORTUNIDAD EXISTE.</p>
-                <h2>
-                  ¿TU PERFIL ESTÁ PREPARADO PARA{" "}
-                  <span className="gold">APROVECHARLA?</span>
-                </h2>
-              </div>
+  <div className="container readiness-inner">
+    <div className="readiness-heading">
+      <p className="readiness-eyebrow">LA OPORTUNIDAD EXISTE.</p>
 
-              <div className="readiness-factors">
-                <span>Formación</span>
-                <span>Experiencia</span>
-                <span>Profesión</span>
-                <span>Idioma</span>
-                <span>Reconocimiento</span>
-                <span>Preparación</span>
-              </div>
+      <h2>
+        ¿TU PERFIL ESTÁ PREPARADO PARA{" "}
+        <span>APROVECHARLA?</span>
+      </h2>
 
-              <Link className="btn" href="/evaluacion">
-                CONOCE TU PUNTO DE PARTIDA →
-              </Link>
-            </div>
-          </div>
-        </section>
+      <p className="readiness-copy">
+        Explorar oportunidades profesionales en Alemania empieza por entender
+        dónde estás y qué aspectos de tu perfil pueden necesitar preparación.
+      </p>
+    </div>
+
+    <div className="readiness-factors">
+      <div className="readiness-factor">
+        <span className="factor-icon">01</span>
+        <strong>FORMACIÓN</strong>
+      </div>
+
+      <div className="readiness-factor">
+        <span className="factor-icon">02</span>
+        <strong>EXPERIENCIA</strong>
+      </div>
+
+      <div className="readiness-factor">
+        <span className="factor-icon">03</span>
+        <strong>PROFESIÓN</strong>
+      </div>
+
+      <div className="readiness-factor">
+        <span className="factor-icon">04</span>
+        <strong>IDIOMA</strong>
+      </div>
+
+      <div className="readiness-factor">
+        <span className="factor-icon">05</span>
+        <strong>RECONOCIMIENTO</strong>
+      </div>
+
+      <div className="readiness-factor">
+        <span className="factor-icon">06</span>
+        <strong>PREPARACIÓN</strong>
+      </div>
+    </div>
+
+    <div className="readiness-action">
+      <Link className="btn" href="/evaluacion">
+        CONOCE TU PUNTO DE PARTIDA →
+      </Link>
+    </div>
+  </div>
+</section>
 
         <section id="sobre-nosotros" className="section">
           <div className="container split-section">
