@@ -65,11 +65,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="hero-image">
-              <div className="hero-image-overlay">
-                <span>Career Migration Partner</span>
-              </div>
-            </div>
+           <div className="hero-image"></div>
           </div>
         </section>
 
