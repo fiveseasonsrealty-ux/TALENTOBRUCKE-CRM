@@ -302,7 +302,9 @@ export default function Home() {
             idiomas y objetivos profesionales.
           </p>
 
-          <strong>Conocemos tu punto de partida.</strong>
+         <div className="how-card-footer">
+  Conocemos tu punto de partida.
+</div>
         </div>
       </article>
 
@@ -321,7 +323,9 @@ export default function Home() {
           </p>
 
           <strong>
-            Entendemos dónde estás y qué podrías necesitar.
+           <div className="how-card-footer">
+  Entendemos dónde estás y qué podrías necesitar.
+</div>
           </strong>
         </div>
       </article>
@@ -340,9 +344,9 @@ export default function Home() {
             cualificaciones, documentación profesional u otros aspectos.
           </p>
 
-          <strong>
-            No todos los candidatos necesitan recorrer el mismo camino.
-          </strong>
+          <div className="how-card-footer">
+  No todos los candidatos necesitan recorrer el mismo camino.
+</div>
         </div>
       </article>
 
@@ -360,9 +364,9 @@ export default function Home() {
             explorar oportunidades en el mercado laboral alemán.
           </p>
 
-          <strong>
-            Con mayor claridad. Con preparación. Sin falsas promesas.
-          </strong>
+         <div className="how-card-footer">
+  Con mayor claridad. Con preparación. Sin falsas promesas.
+</div>
         </div>
       </article>
 
