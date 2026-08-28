@@ -461,13 +461,13 @@ img {
 
 .migration-paths {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-top: 26px;
 }
 
 .migration-card {
-  min-height: 210px;
+  min-height: 170px;
   padding: 24px 20px;
   border: 1px solid var(--border);
   border-radius: 14px;
