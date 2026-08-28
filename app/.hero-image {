@@ -204,9 +204,9 @@ img {
 }
 
 .hero-grid {
-  min-height: 650px;
+  min-height: 610px;
   display: grid;
-  grid-template-columns: 45% 55%;
+  grid-template-columns: 48% 52%;
   align-items: stretch;
 }
 
@@ -232,12 +232,12 @@ img {
 }
 
 .hero h1 {
-  max-width: 670px;
+  max-width: 620px;
   margin: 0 0 24px;
   color: var(--navy);
-  font-size: clamp(42px, 4.5vw, 66px);
-  line-height: 1.02;
-  letter-spacing: -1.5px;
+  font-size: clamp(38px, 3.8vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -1.2px;
 }
 
 .gold {
@@ -268,7 +268,7 @@ img {
 }
 
 .hero-image {
-  min-height: 650px;
+  min-height: 610px;
   position: relative;
   overflow: hidden;
   background-image:
