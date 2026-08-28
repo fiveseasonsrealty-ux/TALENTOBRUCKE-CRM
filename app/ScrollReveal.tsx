@@ -1,33 +1,44 @@
+
 "use client";
 
 import { useEffect } from "react";
 
 export default function ScrollReveal() {
   useEffect(() => {
-    const elements = document.querySelectorAll<HTMLElement>(".reveal");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const element = entry.target as HTMLElement;
-          const rect = entry.boundingClientRect;
-          const triggerPoint = window.innerHeight * 0.72;
-
-          if (entry.isIntersecting && rect.top <= triggerPoint) {
-            element.classList.add("reveal-visible");
-            observer.unobserve(element);
-          }
-        });
-      },
-      {
-        threshold: [0, 0.1, 0.25, 0.5],
-        rootMargin: "0px 0px -28% 0px",
-      }
+    const elements = Array.from(
+      document.querySelectorAll<HTMLElement>(".reveal")
     );
 
-    elements.forEach((element) => observer.observe(element));
+    let userHasScrolled = false;
 
-    return () => observer.disconnect();
+    const revealElements = () => {
+      if (!userHasScrolled) return;
+
+      const triggerPoint = window.innerHeight * 0.82;
+
+      elements.forEach((element) => {
+        if (element.classList.contains("reveal-visible")) return;
+
+        const rect = element.getBoundingClientRect();
+
+        if (rect.top < triggerPoint && rect.bottom > 0) {
+          element.classList.add("reveal-visible");
+        }
+      });
+    };
+
+    const handleScroll = () => {
+      userHasScrolled = true;
+      revealElements();
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", revealElements);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", revealElements);
+    };
   }, []);
 
   return null;
