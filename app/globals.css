@@ -796,7 +796,7 @@ flex-direction: column;
     transform 0.28s ease,
     box-shadow 0.28s ease;
 }
-}
+
 .how-card:hover .how-card-footer {
   background: #0d3566;
   transform: translateY(-2px);
