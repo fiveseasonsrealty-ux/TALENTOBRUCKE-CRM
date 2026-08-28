@@ -69,44 +69,119 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="porque-alemania" className="section light-section">
-          <div className="container">
-            <div className="section-heading">
-              <p className="eyebrow">¿POR QUÉ ALEMANIA?</p>
-              <h2>
-                Una oportunidad profesional respaldada por cambios reales.
-              </h2>
-            </div>
+   <section id="porque-alemania" className="section light-section">
+  <div className="container">
+    <div className="section-heading">
+      <p className="eyebrow">¿POR QUÉ ALEMANIA?</p>
 
-            <div className="two-card-grid">
-              <article className="info-card">
-                <div className="card-number">01</div>
-                <h3>UN MERCADO QUE NECESITA TALENTO CUALIFICADO</h3>
-                <p>
-                  Los cambios demográficos, la digitalización y la transformación
-                  industrial están generando necesidades de profesionales
-                  cualificados en diferentes áreas.
-                </p>
-              </article>
+      <h2>ALEMANIA ESTÁ BUSCANDO TALENTO CUALIFICADO</h2>
 
-              <article className="info-card">
-                <div className="card-number">02</div>
-                <h3>NUEVAS VÍAS PARA EL TALENTO INTERNACIONAL</h3>
-                <p>
-                  Alemania ha reformado su marco de inmigración cualificada y
-                  existen diferentes vías para determinados profesionales
-                  internacionales.
-                </p>
-              </article>
-            </div>
+      <h3 className="section-subtitle">
+        Una economía industrial y tecnológica que necesita profesionales.
+      </h3>
 
-            <div className="section-action">
-              <a className="btn-secondary" href="#porque-alemania-detalle">
-                CONOCE POR QUÉ ALEMANIA →
-              </a>
-            </div>
-          </div>
-        </section>
+      <p className="section-copy">
+        Los cambios demográficos, la digitalización y la transformación de la
+        industria están generando necesidades de personal cualificado en
+        distintas áreas de la economía alemana.
+      </p>
+
+      <p className="section-copy">
+        Ingenieros, profesionales tecnológicos y determinados perfiles técnicos
+        se encuentran entre las ocupaciones para las que Alemania busca
+        incorporar talento, incluido talento procedente del extranjero.
+      </p>
+
+      <p className="section-warning">
+        <strong>No significa que exista empleo garantizado para cualquier perfil.</strong>{" "}
+        La especialidad, experiencia, formación, idioma y situación individual
+        siguen siendo determinantes.
+      </p>
+    </div>
+
+    <div className="germany-layout">
+      <article className="germany-card germany-card-main">
+        <div className="card-number">01</div>
+
+        <h3>TALENTO CUALIFICADO</h3>
+
+        <p>
+          Alemania mantiene una economía fuertemente vinculada con la industria,
+          la ingeniería, la tecnología, la automatización y otros sectores
+          especializados.
+        </p>
+
+        <p>
+          Por eso, determinados perfiles técnicos y profesionales pueden
+          encontrar oportunidades relevantes si cumplen los requisitos del
+          mercado y de su situación individual.
+        </p>
+      </article>
+
+      <article className="germany-card germany-card-main">
+        <div className="card-number">02</div>
+
+        <h3>NUEVAS VÍAS PARA EL TALENTO INTERNACIONAL</h3>
+
+        <p>
+          Alemania ha reformado su marco de inmigración cualificada para ampliar
+          las posibilidades de acceso al país y al mercado laboral para
+          profesionales procedentes de fuera de la Unión Europea.
+        </p>
+
+        <p>
+          Dependiendo de las características de cada candidato, existen
+          diferentes vías que pueden ser relevantes.
+        </p>
+      </article>
+    </div>
+
+    <div className="migration-paths">
+      <article className="migration-card">
+        <h4>EU BLUE CARD</h4>
+        <p>
+          Para determinados profesionales que cumplen los requisitos
+          establecidos, entre ellos los relativos a cualificación, empleo y
+          salario según el caso.
+        </p>
+      </article>
+
+      <article className="migration-card">
+        <h4>VISA PARA PROFESIONALES CUALIFICADOS</h4>
+        <p>
+          Para determinados profesionales con formación profesional o académica
+          que cumplen los requisitos correspondientes para ejercer un empleo
+          cualificado en Alemania.
+        </p>
+      </article>
+
+      <article className="migration-card">
+        <h4>CHANCENKARTE — TARJETA DE OPORTUNIDADES</h4>
+        <p>
+          Una vía que permite a determinados profesionales acceder a Alemania
+          para buscar empleo cualificado cuando cumplen los requisitos
+          establecidos.
+        </p>
+      </article>
+
+      <article className="migration-card">
+        <h4>OTRAS VÍAS PARA PROFESIONALES CON EXPERIENCIA</h4>
+        <p>
+          Dependiendo de la cualificación, experiencia, profesión y
+          circunstancias individuales, existen otras posibilidades de acceso al
+          mercado laboral alemán.
+        </p>
+      </article>
+    </div>
+
+    <div className="germany-disclaimer">
+      <strong>
+        Cada vía tiene requisitos específicos. Su existencia no significa que
+        todos los candidatos sean elegibles.
+      </strong>
+    </div>
+  </div>
+</section>
 
         <section className="readiness-strip">
           <div className="container">
