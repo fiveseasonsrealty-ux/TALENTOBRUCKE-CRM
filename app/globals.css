@@ -1131,6 +1131,215 @@ th {
   text-align: left;
   line-height: 1.25;
 }
+/* =========================
+   MICROINTERACTIONS / DEPTH
+========================= */
+
+/* Botones */
+.btn,
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+}
+
+.btn::after,
+.btn-secondary::after {
+  content: "";
+  width: 0;
+  margin-left: 0;
+  transition: transform 0.22s ease;
+}
+
+.btn:hover,
+.btn-secondary:hover {
+  transform: translateY(-3px);
+}
+
+.btn:hover,
+.btn-secondary:hover {
+  letter-spacing: 0.15px;
+}
+
+/* Hero image depth */
+.hero-image {
+  transition: transform 0.7s ease;
+  transform-origin: center center;
+}
+
+.hero-image:hover {
+  transform: scale(1.018);
+}
+
+/* Germany main cards */
+.germany-card {
+  transform-style: preserve-3d;
+  perspective: 900px;
+  will-change: transform, box-shadow, border-color;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.germany-card:hover {
+  transform: translateY(-8px) rotateX(1.5deg) rotateY(-1deg);
+  border-color: rgba(226, 165, 29, 0.7);
+  box-shadow:
+    0 22px 45px rgba(7, 29, 58, 0.12),
+    0 6px 18px rgba(226, 165, 29, 0.08);
+}
+
+.germany-card .card-number {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.germany-card:hover .card-number {
+  transform: translateZ(18px) scale(1.08);
+  box-shadow: 0 8px 20px rgba(226, 165, 29, 0.18);
+}
+
+/* Migration pathway cards */
+.migration-card {
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.migration-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(226, 165, 29, 0.08),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.migration-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: var(--gold);
+  box-shadow:
+    0 18px 36px rgba(7, 29, 58, 0.1),
+    0 4px 14px rgba(226, 165, 29, 0.08);
+}
+
+.migration-card:hover::before {
+  opacity: 1;
+}
+
+.migration-card h4 {
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.migration-card:hover h4 {
+  color: var(--gold);
+  transform: translateY(-1px);
+}
+
+/* Readiness factors */
+.readiness-factor {
+  position: relative;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.readiness-factor:hover {
+  transform: translateY(-6px);
+}
+
+.factor-icon {
+  position: relative;
+  z-index: 2;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.readiness-factor:hover .factor-icon {
+  transform: scale(1.12);
+  background: var(--gold);
+  color: var(--navy);
+  box-shadow:
+    0 0 0 6px rgba(226, 165, 29, 0.08),
+    0 8px 22px rgba(226, 165, 29, 0.22);
+}
+
+.readiness-factor strong {
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.readiness-factor:hover strong {
+  color: var(--gold);
+  transform: translateY(2px);
+}
+
+/* Profile CTA emphasis */
+.readiness-action .btn {
+  box-shadow: 0 10px 26px rgba(226, 165, 29, 0.16);
+}
+
+.readiness-action .btn:hover {
+  box-shadow: 0 16px 34px rgba(226, 165, 29, 0.28);
+}
+
+/* Subtle section depth */
+.light-section {
+  position: relative;
+}
+
+.light-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 10% 15%,
+      rgba(226, 165, 29, 0.035),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 90% 85%,
+      rgba(7, 29, 58, 0.035),
+      transparent 26%
+    );
+  pointer-events: none;
+}
+
+.light-section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn-secondary,
+  .hero-image,
+  .germany-card,
+  .migration-card,
+  .readiness-factor,
+  .factor-icon,
+  .readiness-factor strong {
+    transition: none !important;
+    transform: none !important;
+  }
+}
 @media (max-width: 1000px) {
   .germany-layout {
   grid-template-columns: 1fr;
