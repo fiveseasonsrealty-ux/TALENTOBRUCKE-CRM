@@ -73,7 +73,7 @@ export default function Home() {
 
    <section id="porque-alemania" className="section light-section">
   <div className="container">
-    <div className="section-heading">
+   <div className="section-heading reveal reveal-up">
       <p className="eyebrow">¿POR QUÉ ALEMANIA?</p>
 
       <h2>ALEMANIA ESTÁ BUSCANDO TALENTO CUALIFICADO</h2>
