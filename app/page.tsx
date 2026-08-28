@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import ScrollReveal from "./ScrollReveal";
 export default function Home() {
   return (
     <>
+      <ScrollReveal />
       <header className="header">
         <div className="container header-inner">
        <Link href="/" className="header-logo" aria-label="TalentoBrücke - Inicio">
