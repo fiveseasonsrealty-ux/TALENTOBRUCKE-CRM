@@ -496,30 +496,72 @@ export default function Home() {
   </div>
 </section>
 
-        <section className="section light-section">
-          <div className="container transparency-grid">
-            <div>
-              <p className="eyebrow">QUÉ PUEDES ESPERAR</p>
-              <ul className="clean-list positive">
-                <li>Evaluación profesional de tu perfil</li>
-                <li>Identificación de aspectos por preparar</li>
-                <li>Orientación según tu situación</li>
-                <li>Información y expectativas claras</li>
-              </ul>
-            </div>
+       <section className="section transparency-section">
+  <div className="container">
 
-            <div>
-              <p className="eyebrow">QUÉ NO PROMETEMOS</p>
-              <ul className="clean-list negative">
-                <li>Empleo garantizado</li>
-                <li>Visa o residencia garantizada</li>
-                <li>Salario garantizado</li>
-                <li>Resultados que dependan de empresas o autoridades</li>
-              </ul>
-            </div>
+    <div className="section-heading centered reveal reveal-up">
+      <p className="eyebrow">TRANSPARENCIA DESDE EL PRINCIPIO</p>
+
+      <h2>
+        CLARIDAD SOBRE LO QUE PUEDES ESPERAR
+        Y LO QUE NO PROMETEMOS.
+      </h2>
+
+      <p className="section-intro transparency-intro">
+        Un proceso profesional empieza por establecer expectativas claras.
+        Nuestro objetivo es ayudarte a comprender tu situación y prepararte
+        mejor, sin convertir posibilidades en promesas.
+      </p>
+    </div>
+
+    <div className="transparency-cards">
+
+      <article className="transparency-card transparency-positive reveal reveal-left">
+        <div className="transparency-card-header">
+          <span className="transparency-symbol">✓</span>
+          <div>
+            <p className="transparency-label">QUÉ PUEDES ESPERAR</p>
+            <h3>UN PROCESO PROFESIONAL Y CLARO</h3>
           </div>
-        </section>
+        </div>
 
+        <ul className="transparency-list">
+          <li>Evaluación profesional de tu perfil</li>
+          <li>Identificación de aspectos por preparar</li>
+          <li>Orientación según tu situación</li>
+          <li>Información y expectativas claras</li>
+        </ul>
+      </article>
+
+      <article className="transparency-card transparency-negative reveal reveal-right">
+        <div className="transparency-card-header">
+          <span className="transparency-symbol">×</span>
+          <div>
+            <p className="transparency-label">QUÉ NO PROMETEMOS</p>
+            <h3>RESULTADOS QUE NO DEPENDEN SOLO DE NOSOTROS</h3>
+          </div>
+        </div>
+
+        <ul className="transparency-list">
+          <li>Empleo garantizado</li>
+          <li>Visa o residencia garantizada</li>
+          <li>Salario garantizado</li>
+          <li>Resultados que dependan de empresas o autoridades</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <div className="transparency-closing reveal reveal-up">
+      <p>
+        <strong>No vendemos certezas que nadie puede garantizar.</strong>
+        {" "}Trabajamos para aportar claridad, preparación y acompañamiento
+        profesional durante el proceso.
+      </p>
+    </div>
+
+  </div>
+</section>
         <section className="final-cta">
           <div className="container final-cta-inner">
             <div>
