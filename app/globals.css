@@ -1771,16 +1771,17 @@ th {
 }
 
 .factor-icon {
-  width: 46px;
-  height: 46px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid var(--gold);
   border-radius: 50%;
-  color: var(--gold);
-  font-size: 13px;
+  color: white;
+  font-size: 12px;
   font-weight: 900;
+  line-height: 1;
 }
 
 .readiness-factor strong {
