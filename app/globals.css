@@ -567,17 +567,7 @@ img {
   text-transform: uppercase;
 }
 
-.readiness-factors span::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 34px;
-  height: 34px;
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-  transform: translateX(-50%);
-}
+
 
 /* =========================
    ABOUT
@@ -586,7 +576,7 @@ img {
 .split-section {
   display: grid;
   grid-template-columns: 42% 58%;
-  align-items: center;
+  alig-items: center;
   gap: 50px;
 }
 
