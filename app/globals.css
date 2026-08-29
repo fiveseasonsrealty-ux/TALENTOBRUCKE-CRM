@@ -2141,15 +2141,18 @@ th {
 }
 
 .footer-brand {
-  max-width: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
 }
 
 .footer-logo {
   display: block;
-  width: 190px;
+  width: 300px;
   max-width: 100%;
   height: auto;
-  margin-bottom: 14px;
+  margin: 0 auto;
 }
 
 .footer-brand p {
