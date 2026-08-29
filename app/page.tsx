@@ -211,39 +211,43 @@ export default function Home() {
         dónde estás y qué aspectos de tu perfil pueden necesitar preparación.
       </p>
     </div>
+<div className="readiness-factors">
+    <div className="readiness-factor">
+  <span className="factor-icon"></span>
+  <span className="factor-number">01</span>
+  <strong>FORMACIÓN</strong>
+</div>
 
-    <div className="readiness-factors">
-      <div className="readiness-factor">
-        <span className="factor-icon">01</span>
-        <strong>FORMACIÓN</strong>
-      </div>
+     <div className="readiness-factor">
+  <span className="factor-icon"></span>
+  <span className="factor-number">02</span>
+  <strong>EXPERIENCIA</strong>
+</div>
 
-      <div className="readiness-factor">
-        <span className="factor-icon">02</span>
-        <strong>EXPERIENCIA</strong>
-      </div>
+<div className="readiness-factor">
+  <span className="factor-icon"></span>
+  <span className="factor-number">03</span>
+  <strong>PROFESIÓN</strong>
+</div>
 
-      <div className="readiness-factor">
-        <span className="factor-icon">03</span>
-        <strong>PROFESIÓN</strong>
-      </div>
+<div className="readiness-factor">
+  <span className="factor-icon"></span>
+  <span className="factor-number">04</span>
+  <strong>IDIOMA</strong>
+</div>
 
-      <div className="readiness-factor">
-        <span className="factor-icon">04</span>
-        <strong>IDIOMA</strong>
-      </div>
+<div className="readiness-factor">
+  <span className="factor-icon"></span>
+  <span className="factor-number">05</span>
+  <strong>RECONOCIMIENTO</strong>
+</div>
 
-      <div className="readiness-factor">
-        <span className="factor-icon">05</span>
-        <strong>RECONOCIMIENTO</strong>
-      </div>
-
-      <div className="readiness-factor">
-        <span className="factor-icon">06</span>
-        <strong>PREPARACIÓN</strong>
-      </div>
-    </div>
-
+<div className="readiness-factor">
+  <span className="factor-icon"></span>
+  <span className="factor-number">06</span>
+  <strong>PREPARACIÓN</strong>
+</div> 
+</div>
     <div className="readiness-action">
       <Link className="btn" href="/evaluacion">
         CONOCE TU PUNTO DE PARTIDA →
