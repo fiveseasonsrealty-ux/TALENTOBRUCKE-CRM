@@ -243,9 +243,7 @@ export default function Home() {
 
         <section id="sobre-nosotros" className="section">
           <div className="container split-section">
-            <div className="visual-placeholder">
-              <span>TalentoBrücke</span>
-            </div>
+            <div className="about-image reveal reveal-left"></div>
 
             <div>
               <p className="eyebrow">SOBRE TALENTOBRÜCKE</p>
