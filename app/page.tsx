@@ -9,7 +9,7 @@ export default function Home() {
         <div className="container header-inner">
        <Link href="/" className="header-logo" aria-label="TalentoBrücke - Inicio">
   <Image
-    src="/logo-talentobrucke.png"
+    src="/logo-talentobrucke-footer.png"
     alt="TalentoBrücke - Career Migration Partner"
     width={260}
     height={88}
