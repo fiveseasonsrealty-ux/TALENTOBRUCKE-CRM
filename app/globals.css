@@ -1823,7 +1823,28 @@ th {
   min-height: 300px;
 }  
 }
+/* FOTO SOBRE TALENTOBRÜCKE */
 
+.about-image {
+  min-height: 340px;
+  border-radius: 18px;
+
+  background-image: url("/sobre-talentobrucke.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  box-shadow: 0 18px 45px rgba(7, 29, 58, 0.14);
+
+  transition:
+    transform 0.45s ease,
+    box-shadow 0.45s ease;
+}
+
+.about-image:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 25px 55px rgba(7, 29, 58, 0.20);
+}
 /* =========================
    MOBILE
 ========================= */
