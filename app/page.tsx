@@ -137,7 +137,18 @@ export default function Home() {
         </p>
       </article>
     </div>
+<div className="migration-options-heading reveal reveal-up">
+  <p className="eyebrow">VÍAS PARA PROFESIONALES INTERNACIONALES</p>
 
+  <h3>
+    ALEMANIA OFRECE DIFERENTES VÍAS DE ACCESO PARA PROFESIONALES CUALIFICADOS.
+  </h3>
+
+  <p>
+    Dependiendo de la formación, experiencia, profesión y situación individual,
+    existen distintas posibilidades para acceder al mercado laboral alemán.
+  </p>
+</div>
     <div className="migration-paths">
       <article className="migration-card">
         <h4>EU BLUE CARD</h4>
