@@ -598,12 +598,14 @@ export default function Home() {
 
       <footer className="footer">
         <div className="container footer-grid">
-          <div>
-            <div className="brand">
-              TALENTO<span>BRÜCKE</span>
-            </div>
-            <p>Career Migration Partner</p>
-          </div>
+         <div className="footer-brand">
+  <img
+    src="/logo-talentobrucke.png"
+    alt="TalentoBrücke"
+    className="footer-logo"
+  />
+  <p>CAREER MIGRATION PARTNER</p>
+</div>
 
           <div>
             <strong>Navegación</strong>
