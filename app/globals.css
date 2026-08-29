@@ -458,6 +458,24 @@ img {
 .germany-card p:last-child {
   margin-bottom: 0;
 }
+.migration-options-heading {
+  margin-top: 64px;
+  margin-bottom: 28px;
+}
+
+.migration-options-heading .eyebrow {
+  margin: 0 0 10px;
+}
+
+.migration-options-heading h3 {
+  margin: 0 0 10px;
+  line-height: 1.2;
+}
+
+.migration-options-heading p {
+  margin: 0;
+  line-height: 1.6;
+}
 
 .migration-paths {
   display: grid;
