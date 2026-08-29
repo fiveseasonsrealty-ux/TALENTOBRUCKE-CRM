@@ -600,7 +600,7 @@ export default function Home() {
         <div className="container footer-grid">
         <div className="footer-brand">
   <img
-    src="/logo-talentobrucke.png"
+   src="/logo-talentobrucke-footer.png"
     alt="TalentoBrücke"
     className="footer-logo"
   />
