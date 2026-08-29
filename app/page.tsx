@@ -562,26 +562,38 @@ export default function Home() {
 
   </div>
 </section>
-        <section className="final-cta">
-          <div className="container final-cta-inner">
-            <div>
-              <h2>
-                ¿TU PERFIL PROFESIONAL PUEDE TENER{" "}
-                <span className="gold">POTENCIAL EN ALEMANIA?</span>
-              </h2>
-              <p>Empieza por conocer tu punto de partida.</p>
-            </div>
+       <section className="final-cta">
+  <div className="container final-cta-inner">
 
-            <Link className="btn" href="/evaluacion">
-              EVALÚA TU PERFIL →
-            </Link>
-          </div>
+    <div className="final-cta-content reveal reveal-up">
+      <p className="final-cta-eyebrow">
+        TU PRÓXIMO PASO EMPIEZA CON CLARIDAD
+      </p>
 
-          <div className="container final-note">
-            No queremos convencerte de que Alemania es para ti. Queremos ayudarte
-            a descubrir si puede serlo.
-          </div>
-        </section>
+      <h2>
+        ¿TU PERFIL PROFESIONAL PUEDE TENER
+        <span className="gold"> POTENCIAL EN ALEMANIA?</span>
+      </h2>
+
+      <p className="final-cta-copy">
+        Empieza por conocer tu punto de partida.
+      </p>
+
+      <Link className="btn final-cta-button" href="/evaluacion">
+        EVALÚA TU PERFIL →
+      </Link>
+    </div>
+
+    <div className="final-note reveal reveal-up">
+      <span className="final-note-line"></span>
+      <p>
+        No queremos convencerte de que Alemania es para ti.
+        <strong> Queremos ayudarte a descubrir si puede serlo.</strong>
+      </p>
+    </div>
+
+  </div>
+</section>
       </main>
 
       <footer className="footer">
