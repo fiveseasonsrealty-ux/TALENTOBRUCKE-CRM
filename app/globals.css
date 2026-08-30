@@ -2477,3 +2477,51 @@ th {
   }
 
 }
+/* =========================================
+   MOBILE — READINESS / PUNTO DE PARTIDA
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  .readiness-section {
+    padding: 64px 22px 58px;
+  }
+
+  .readiness-factors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+    row-gap: 38px;
+    margin-top: 38px;
+  }
+
+  .readiness-factor {
+    gap: 0;
+  }
+
+  .factor-icon {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 16px;
+  }
+
+  .factor-number {
+    margin: 0 0 7px 0 !important;
+  }
+
+  .readiness-factor strong {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .readiness-action {
+    margin-top: 42px;
+  }
+
+  .readiness-action .btn {
+    width: 100%;
+    max-width: none;
+    min-height: 58px;
+    justify-content: center;
+    text-align: center;
+  }
+}
