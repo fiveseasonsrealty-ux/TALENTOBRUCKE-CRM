@@ -31,6 +31,7 @@ export default function EvaluationPage() {
   const [data,setData] = useState<any>(empty);
   const [status,setStatus] = useState<"idle"|"sending"|"done"|"error">("idle");
 const [consentError,setConsentError] = useState(false);
+ const [formError, setFormError] = useState(""); 
 const tracking = useMemo(() => params(), []);
 
   const set = (name:string, value:any) => setData((d:any)=>({...d,[name]:value}));
@@ -215,6 +216,22 @@ const tracking = useMemo(() => params(), []);
   }}
 /> Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.</label>
               </div>
+{formError && (
+  <div
+    style={{
+      marginTop: "12px",
+      marginBottom: "8px",
+      padding: "12px 14px",
+      border: "2px solid #DC2626",
+      borderRadius: "8px",
+      backgroundColor: "#FEF2F2",
+      color: "#B91C1C",
+      fontWeight: 700,
+    }}
+  >
+    {formError}
+  </div>
+)}              
               {consentError && (
   <div
     style={{
@@ -228,7 +245,7 @@ const tracking = useMemo(() => params(), []);
       fontWeight: 700
     }}
   >
-    ⚠ Debes aceptar la Política de Privacidad antes de enviar tu evaluación.
+   Para enviar tu solicitud, debes aceptar el tratamiento de tus datos personales.
   </div>
 )}
               <p className="notice">Tus datos serán tratados de forma confidencial.</p>
@@ -240,17 +257,32 @@ const tracking = useMemo(() => params(), []);
                 ? <button className="btn" onClick={()=>setStep(s=>Math.min(4,s+1))}>CONTINUAR →</button>
                 : <button
     className="btn"
-    disabled={!data.email || status==="sending"}
-    onClick={() => {
-     if (!data.consent) {
-  setConsentError(true);
-  window.alert("Debes aceptar la Política de Privacidad antes de enviar tu evaluación.");
-  return;
-}
+   disabled={status==="sending"}
+  onClick={() => {
+  const missingPersonalData =
+    !data.first_name?.trim() ||
+    !data.last_name?.trim() ||
+    !data.email?.trim() ||
+    !data.phone?.trim();
 
-      setConsentError(false);
-      submit();
-    }}
+  if (missingPersonalData) {
+    setFormError(
+      "Por favor, completa todos los campos obligatorios antes de enviar tu solicitud."
+    );
+    setConsentError(false);
+    return;
+  }
+
+  if (!data.consent) {
+    setFormError("");
+    setConsentError(true);
+    return;
+  }
+
+  setFormError("");
+  setConsentError(false);
+  submit();
+}} 
   >
     {status==="sending" ? "ENVIANDO..." : "ENVIAR MI EVALUACIÓN →"}
   </button>
