@@ -2490,7 +2490,7 @@ th {
   .readiness-factors {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 24px;
-    row-gap: 38px;
+    row-gap: 28px;
     margin-top: 38px;
   }
 
@@ -2512,7 +2512,16 @@ th {
     font-size: 12px;
     line-height: 1.2;
   }
+.readiness-factors .factor-icon {
+  box-sizing: border-box;
+  padding: 0 !important;
+  margin: 0 auto 8px !important;
+}
 
+.readiness-factors .factor-number {
+  padding: 0 !important;
+  margin: 0 0 6px !important;
+}
   .readiness-action {
     margin-top: 42px;
   }
