@@ -69,15 +69,22 @@ export default async function CRMPage() {
                 <td><span className={badge(x.classification)}>{label(x.classification)}</span></td>
                 <td>{x.utm_campaign || "—"}</td>
                 <td>{x.utm_content || x.ad_id || "—"}</td>
-               <td>
-  {new Date(x.created_at).toLocaleString("es-MX", {
-    timeZone: "America/Cancun",
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
-  })}
+              <td style={{ whiteSpace: "nowrap" }}>
+  <div>
+    {new Date(x.created_at).toLocaleDateString("es-MX", {
+      timeZone: "America/Cancun",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    })}
+  </div>
+  <div style={{ fontSize: "13px", marginTop: "3px" }}>
+    {new Date(x.created_at).toLocaleTimeString("es-MX", {
+      timeZone: "America/Cancun",
+      hour: "2-digit",
+      minute: "2-digit"
+    })}
+  </div>
 </td>
               </tr>)}
               {!rows.length && <tr><td colSpan={11}>Todavía no hay candidatos. Cuando alguien envíe la landing, aparecerá aquí automáticamente.</td></tr>}
