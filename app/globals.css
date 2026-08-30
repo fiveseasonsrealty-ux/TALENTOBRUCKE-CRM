@@ -2524,3 +2524,19 @@ th {
     text-align: center;
   }
 }
+/* ========================================
+   FIX DEFINITIVO - FACTORES EN MÓVIL
+   Neutraliza padding heredado de spans
+======================================== */
+
+@media (max-width: 768px) {
+
+  .readiness-factors .factor-icon {
+    padding-top: 0 !important;
+  }
+
+  .readiness-factors .factor-number {
+    padding-top: 0 !important;
+  }
+
+}
