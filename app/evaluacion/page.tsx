@@ -104,9 +104,42 @@ const tracking = useMemo(() => params(), []);
             </div>
             <p className="notice">Completar esta evaluación no constituye una oferta de empleo ni garantiza contratación, reconocimiento profesional, visa o residencia.</p>
           </div>
-          <div className="hero-card">
-            <div><strong>Primero conocemos tu perfil.</strong><p>Después determinamos cuáles podrían ser los siguientes pasos.</p></div>
-          </div>
+        <div
+  className="hero-card"
+  style={{
+    position: "relative",
+    overflow: "hidden",
+    backgroundImage: "url('/evaluacion-ingeniero.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  }}
+>
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      background:
+        "linear-gradient(to bottom, rgba(7,29,58,0.02) 45%, rgba(7,29,58,0.92) 100%)",
+    }}
+  />
+
+  <div
+    style={{
+      position: "absolute",
+      left: "36px",
+      right: "36px",
+      bottom: "30px",
+      zIndex: 2,
+      color: "white",
+    }}
+  >
+    <strong>Primero conocemos tu perfil.</strong>
+    <p style={{ marginTop: "10px", marginBottom: 0 }}>
+      Después determinamos cuáles podrían ser los siguientes pasos.
+    </p>
+  </div>
+</div> 
         </div>
       </section>
 
