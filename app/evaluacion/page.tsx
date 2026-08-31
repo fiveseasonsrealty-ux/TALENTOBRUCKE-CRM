@@ -35,7 +35,22 @@ const [consentError,setConsentError] = useState(false);
 const tracking = useMemo(() => params(), []);
 
   const set = (name:string, value:any) => setData((d:any)=>({...d,[name]:value}));
+const changeStep = (nextStep:number) => {
+  setStep(nextStep);
 
+  setTimeout(() => {
+    const form = document.getElementById("formulario");
+
+    if (form) {
+      const y = form.getBoundingClientRect().top + window.scrollY - 90;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth"
+      });
+    }
+  }, 50);
+};
   async function submit() {
     setStatus("sending");
     const res = await fetch("/api/leads", {
@@ -285,9 +300,9 @@ const tracking = useMemo(() => params(), []);
             </>}
 
             <div className="form-actions">
-              <button className="btn secondary" disabled={step===1 || status==="sending"} onClick={()=>setStep(s=>Math.max(1,s-1))}>← ATRÁS</button>
+              <button className="btn secondary" disabled={step===1 || status==="sending"} onClick={()=>changeStep(Math.max(1,step-1))}>← ATRÁS</button>
               {step<4
-                ? <button className="btn" onClick={()=>setStep(s=>Math.min(4,s+1))}>CONTINUAR →</button>
+                ? <button className="btn" onClick={()=>changeStep(Math.min(4,step+1))} >CONTINUAR →</button>
                 : <button
     className="btn"
    disabled={status==="sending"}
