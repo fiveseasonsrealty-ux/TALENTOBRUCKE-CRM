@@ -120,7 +120,7 @@ const tracking = useMemo(() => params(), []);
       position: "absolute",
       inset: 0,
       background:
-        "linear-gradient(to bottom, rgba(7,29,58,0.02) 45%, rgba(7,29,58,0.92) 100%)",
+     "linear-gradient(to bottom, rgba(7,29,58,0) 50%, rgba(7,29,58,0.82) 100%)", 
     }}
   />
 
