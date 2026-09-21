@@ -59,7 +59,20 @@ export default async function CRMPage() {
             <thead><tr><th>Nombre</th><th>País</th><th>Perfil</th><th>Especialidad</th><th>Experiencia</th><th>Alemán</th><th>Score</th><th>Clasificación</th><th>Campaña</th><th>Anuncio</th><th>Fecha</th></tr></thead>
             <tbody>
               {rows.map((x:any)=><tr key={x.id}>
-                <td><strong>{x.first_name} {x.last_name}</strong><br/><small>{x.email}</small></td>
+               <td>
+  <a
+    href={`/crm/candidato/${x.id}`}
+    style={{
+      color: "#0A2A52",
+      textDecoration: "none",
+      fontWeight: 700
+    }}
+  >
+    {x.first_name} {x.last_name}
+  </a>
+  <br/>
+  <small>{x.email}</small>
+</td>
                 <td>{x.country}</td>
                 <td>{x.profile}</td>
                 <td>{x.specialty}</td>
