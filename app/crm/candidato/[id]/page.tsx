@@ -20,7 +20,38 @@ function label(c: string) {
     } as any
   )[c] || c;
 }
+function horizonLabel(h: string) {
+  return (
+    {
+      SHORT_TERM: "Corto plazo",
+      MEDIUM_TERM: "Mediano plazo",
+      LONG_TERM: "Largo plazo",
+      DEVELOPMENT: "En desarrollo",
+    } as any
+  )[h] || h;
+}
 
+function gapLabel(g: string) {
+  return (
+    {
+      GERMAN: "Alemán",
+    } as any
+  )[g] || g;
+}
+
+function flagLabel(f: string) {
+  return (
+    {
+      NO_GERMAN: "Sin alemán actualmente",
+      AGE_PATHWAY_REVIEW: "Revisar vía aplicable por edad",
+      INCOMPLETE_STUDIES: "Estudios incompletos",
+      NON_TECHNICAL_PROFILE: "Perfil no técnico",
+      NO_GERMAN_WILLINGNESS: "Sin disposición a aprender alemán",
+      NO_MOBILITY_INTEREST: "Sin disposición de movilidad",
+      COUNTRY_OUTSIDE_TARGET: "País fuera del mercado objetivo",
+    } as any
+  )[f] || f;
+}
 function Field({ title, value: fieldValue }: { title: string; value: any }) {
   return (
     <div
@@ -212,16 +243,61 @@ export default async function CandidatePage({
             gap: "14px",
           }}
         >
-          <Field title="Score" value={candidate.score} />
-          <Field title="Clasificación" value={label(candidate.classification)} />
-          <Field
-            title="Flags"
-            value={
-              Array.isArray(candidate.flags) && candidate.flags.length
-                ? candidate.flags.join(", ")
-                : "Sin alertas"
-            }
-          />
+          <Field title="Score total" value={candidate.score} />
+
+<Field
+  title="Fortaleza profesional"
+  value={
+    candidate.professional_score !== null &&
+    candidate.professional_score !== undefined
+      ? `${candidate.professional_score}/60`
+      : "Pendiente de recalcular"
+  }
+/>
+
+<Field
+  title="Preparación Alemania"
+  value={
+    candidate.germany_readiness !== null &&
+    candidate.germany_readiness !== undefined
+      ? `${candidate.germany_readiness}/40`
+      : "Pendiente de recalcular"
+  }
+/>
+
+<Field
+  title="Clasificación"
+  value={label(candidate.classification)}
+/>
+
+<Field
+  title="Horizonte"
+  value={
+    candidate.horizon
+      ? horizonLabel(candidate.horizon)
+      : "Pendiente de recalcular"
+  }
+/>
+
+<Field
+  title="Brechas"
+  value={
+    Array.isArray(candidate.gaps) && candidate.gaps.length
+      ? candidate.gaps.map(gapLabel).join(", ")
+      : candidate.gaps
+        ? value(candidate.gaps)
+        : "Sin brechas registradas"
+  }
+/>
+
+<Field
+  title="Alertas / revisión"
+  value={
+    Array.isArray(candidate.flags) && candidate.flags.length
+      ? candidate.flags.map(flagLabel).join(", ")
+      : "Sin alertas"
+  }
+/>
         </div>
       </main>
     </>
