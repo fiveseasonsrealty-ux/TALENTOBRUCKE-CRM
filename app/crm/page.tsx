@@ -2,107 +2,399 @@ import { supabaseAdmin } from "../../lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
 
-function badge(c:string) {
-  if (c==="HIGH_POTENTIAL") return "badge high";
-  if (c==="POTENTIAL_CANDIDATE") return "badge qualified";
-  if (c==="QUALIFIED_LEAD") return "badge qualified";
-  if (c==="NURTURE_LEAD") return "badge nurture";
-  return "badge low";
-}
-function label(c:string) {
-  return ({
-    HIGH_POTENTIAL:"Candidato prioritario",
-    POTENTIAL_CANDIDATE:"Candidato potencial",
-    QUALIFIED_LEAD:"Lead cualificado",
-    NURTURE_LEAD:"Lead en desarrollo",
-    LOW_PRIORITY:"No prioritario"
-  } as any)[c] || c;
-}
-
-export default async function CRMPage() {
+export default async function CRMDashboard() {
   const db = supabaseAdmin();
-  const { data:candidates, error } = await db
+
+  const { data: candidates, error } = await db
     .from("candidates")
     .select("*")
-    .order("created_at", { ascending:false })
+    .order("created_at", { ascending: false })
     .limit(500);
 
-  if (error) return <main className="container crm-head"><h1>Error cargando CRM</h1><p>{error.message}</p></main>;
+  if (error) {
+    return (
+      <main className="container crm-head">
+        <h1>Error cargando CRM</h1>
+        <p>{error.message}</p>
+      </main>
+    );
+  }
 
   const rows = candidates || [];
-  const qualified = rows.filter(x=>x.score>=60).length;
-  const high = rows.filter(x=>x.score>=75).length;
-  const avg = rows.length ? Math.round(rows.reduce((a,b)=>a+(b.score||0),0)/rows.length) : 0;
+
+  const total = rows.length;
+
+  const newCandidates = rows.filter(
+    (x: any) => !x.manual_status || x.manual_status === "Nuevo"
+  ).length;
+
+  const review = rows.filter(
+    (x: any) => x.manual_status === "Por revisar"
+  ).length;
+
+  const contact = rows.filter(
+    (x: any) => x.manual_status === "Contactar"
+  ).length;
+
+  const potential = rows.filter(
+    (x: any) =>
+      x.classification === "HIGH_POTENTIAL" ||
+      x.classification === "POTENTIAL_CANDIDATE"
+  ).length;
+
+  const averageScore = total
+    ? Math.round(
+        rows.reduce(
+          (sum: number, candidate: any) => sum + (candidate.score || 0),
+          0
+        ) / total
+      )
+    : 0;
+
+  const cardStyle = {
+    background: "#ffffff",
+    border: "1px solid #e5e7eb",
+    borderRadius: "12px",
+    padding: "22px",
+  };
+
+  const linkCardStyle = {
+    ...cardStyle,
+    display: "block",
+    textDecoration: "none",
+    color: "#0A2A52",
+    minHeight: "150px",
+  };
 
   return (
     <>
       <header className="header">
         <div className="container header-inner">
-          <div className="brand">TALENTO<span>BRÜCKE</span> CRM</div>
-          <a className="btn secondary" href="/evaluacion" target="_blank">VER LANDING</a>
+          <div className="brand">
+            TALENTO<span>BRÜCKE</span> CRM
+          </div>
+
+          <a
+            className="btn secondary"
+            href="/evaluacion"
+            target="_blank"
+          >
+            VER LANDING
+          </a>
         </div>
       </header>
-      <main className="container">
-        <div className="crm-head">
-          <h1 style={{color:"#0A2A52"}}>Candidatos</h1>
-          <p>Captación y cualificación de talento.</p>
-        </div>
-        <div className="kpis">
-          <div className="kpi"><div>Total leads</div><div className="value">{rows.length}</div></div>
-          <div className="kpi"><div>Leads cualificados</div><div className="value">{qualified}</div></div>
-          <div className="kpi"><div>Candidatos prioritarios</div><div className="value">{high}</div></div>
-          <div className="kpi"><div>Score promedio</div><div className="value">{avg}</div></div>
+
+      <main
+        className="container"
+        style={{
+          paddingTop: "34px",
+          paddingBottom: "60px",
+        }}
+      >
+        <div style={{ marginBottom: "30px" }}>
+          <div
+            style={{
+              color: "#64748b",
+              fontSize: "13px",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              marginBottom: "6px",
+            }}
+          >
+            TalentoBrücke CRM
+          </div>
+
+          <h1
+            style={{
+              color: "#0A2A52",
+              margin: 0,
+              marginBottom: "8px",
+            }}
+          >
+            Dashboard
+          </h1>
+
+          <p
+            style={{
+              color: "#64748b",
+              margin: 0,
+            }}
+          >
+            Gestión y seguimiento de candidatos.
+          </p>
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <thead><tr><th>Nombre</th><th>País</th><th>Perfil</th><th>Especialidad</th><th>Experiencia</th><th>Alemán</th><th>Score</th><th>Clasificación</th><th>Campaña</th><th>Anuncio</th><th>Fecha</th></tr></thead>
-            <tbody>
-              {rows.map((x:any)=><tr key={x.id}>
-               <td>
-  <a
-    href={`/crm/candidato/${x.id}`}
-    style={{
-      color: "#0A2A52",
-      textDecoration: "none",
-      fontWeight: 700
-    }}
-  >
-    {x.first_name} {x.last_name}
-  </a>
-  <br/>
-  <small>{x.email}</small>
-</td>
-                <td>{x.country}</td>
-                <td>{x.profile}</td>
-                <td>{x.specialty}</td>
-                <td>{x.experience_years}</td>
-                <td>{x.german_level}</td>
-                <td><strong>{x.score}</strong></td>
-                <td><span className={badge(x.classification)}>{label(x.classification)}</span></td>
-                <td>{x.utm_campaign || "—"}</td>
-                <td>{x.utm_content || x.ad_id || "—"}</td>
-              <td style={{ whiteSpace: "nowrap" }}>
-  <div>
-    {new Date(x.created_at).toLocaleDateString("es-MX", {
-      timeZone: "America/Cancun",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
-    })}
-  </div>
-  <div style={{ fontSize: "13px", marginTop: "3px" }}>
-    {new Date(x.created_at).toLocaleTimeString("es-MX", {
-      timeZone: "America/Cancun",
-      hour: "2-digit",
-      minute: "2-digit"
-    })}
-  </div>
-</td>
-              </tr>)}
-              {!rows.length && <tr><td colSpan={11}>Todavía no hay candidatos. Cuando alguien envíe la landing, aparecerá aquí automáticamente.</td></tr>}
-            </tbody>
-          </table>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "14px",
+            marginBottom: "38px",
+          }}
+        >
+          <div style={cardStyle}>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#64748b",
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
+            >
+              Total candidatos
+            </div>
+
+            <div
+              style={{
+                fontSize: "32px",
+                fontWeight: 800,
+                color: "#0A2A52",
+                marginTop: "8px",
+              }}
+            >
+              {total}
+            </div>
+          </div>
+
+          <div style={cardStyle}>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#64748b",
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
+            >
+              Nuevos
+            </div>
+
+            <div
+              style={{
+                fontSize: "32px",
+                fontWeight: 800,
+                color: "#0A2A52",
+                marginTop: "8px",
+              }}
+            >
+              {newCandidates}
+            </div>
+          </div>
+
+          <div style={cardStyle}>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#64748b",
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
+            >
+              Por revisar
+            </div>
+
+            <div
+              style={{
+                fontSize: "32px",
+                fontWeight: 800,
+                color: "#0A2A52",
+                marginTop: "8px",
+              }}
+            >
+              {review}
+            </div>
+          </div>
+
+          <div style={cardStyle}>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#64748b",
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
+            >
+              Contactar
+            </div>
+
+            <div
+              style={{
+                fontSize: "32px",
+                fontWeight: 800,
+                color: "#0A2A52",
+                marginTop: "8px",
+              }}
+            >
+              {contact}
+            </div>
+          </div>
+
+          <div style={cardStyle}>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#64748b",
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
+            >
+              Potenciales
+            </div>
+
+            <div
+              style={{
+                fontSize: "32px",
+                fontWeight: 800,
+                color: "#0A2A52",
+                marginTop: "8px",
+              }}
+            >
+              {potential}
+            </div>
+          </div>
+
+          <div style={cardStyle}>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#64748b",
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
+            >
+              Score promedio
+            </div>
+
+            <div
+              style={{
+                fontSize: "32px",
+                fontWeight: 800,
+                color: "#0A2A52",
+                marginTop: "8px",
+              }}
+            >
+              {averageScore}
+            </div>
+          </div>
+        </div>
+
+        <h2
+          style={{
+            color: "#0A2A52",
+            marginBottom: "18px",
+          }}
+        >
+          Gestión
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: "16px",
+          }}
+        >
+          <a href="/crm/candidatos" style={linkCardStyle}>
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: 800,
+                marginBottom: "8px",
+              }}
+            >
+              Candidatos
+            </div>
+
+            <div
+              style={{
+                color: "#64748b",
+                lineHeight: 1.5,
+              }}
+            >
+              Consulta la base completa, puntuación,
+              clasificación y ficha de cada candidato.
+            </div>
+
+            <div
+              style={{
+                marginTop: "18px",
+                fontWeight: 800,
+                color: "#D9A514",
+              }}
+            >
+              ABRIR CANDIDATOS →
+            </div>
+          </a>
+
+          <a href="/crm/embudo" style={linkCardStyle}>
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: 800,
+                marginBottom: "8px",
+              }}
+            >
+              Embudo
+            </div>
+
+            <div
+              style={{
+                color: "#64748b",
+                lineHeight: 1.5,
+              }}
+            >
+              Visualiza en qué etapa se encuentra cada
+              candidato y gestiona el avance del proceso.
+            </div>
+
+            <div
+              style={{
+                marginTop: "18px",
+                fontWeight: 800,
+                color: "#D9A514",
+              }}
+            >
+              ABRIR EMBUDO →
+            </div>
+          </a>
+
+          <div
+            style={{
+              ...linkCardStyle,
+              opacity: 0.65,
+            }}
+          >
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: 800,
+                marginBottom: "8px",
+              }}
+            >
+              Actividades
+            </div>
+
+            <div
+              style={{
+                color: "#64748b",
+                lineHeight: 1.5,
+              }}
+            >
+              Seguimiento de contactos, diagnósticos,
+              notas y próximas acciones.
+            </div>
+
+            <div
+              style={{
+                marginTop: "18px",
+                fontWeight: 800,
+                color: "#64748b",
+              }}
+            >
+              PRÓXIMAMENTE
+            </div>
+          </div>
         </div>
       </main>
     </>
