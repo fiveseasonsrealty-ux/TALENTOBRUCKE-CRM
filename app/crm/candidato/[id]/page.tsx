@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "../../../../lib/supabaseAdmin";
+import StatusSelector from "./StatusSelector";
 
 export const dynamic = "force-dynamic";
 
@@ -229,7 +230,9 @@ export default async function CandidatePage({
           <Field title="Anuncio" value={candidate.utm_content || candidate.ad_id} />
           <Field title="Fuente" value={candidate.utm_source} />
           <Field title="Medio" value={candidate.utm_medium} />
-          <Field title="Estado CRM" value={candidate.manual_status} />
+          <div>
+  <StatusSelector candidateId={candidate.id} currentStatus={candidate.manual_status || "Nuevo"} />
+</div>
         </div>
 
         <h2 style={{ color: "#0A2A52", marginTop: "34px" }}>
