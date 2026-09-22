@@ -95,7 +95,11 @@ export default async function CandidatePage({
     .select("*")
     .eq("id", id)
     .single();
-
+const { data: activities } = await db
+  .from("activities")
+  .select("*")
+  .eq("candidate_id", id)
+  .order("created_at", { ascending: false });
   if (error || !candidate) {
     return (
       <main className="container" style={{ paddingTop: "40px" }}>
@@ -312,7 +316,73 @@ export default async function CandidatePage({
 </p>
 
 <ActivityForm candidateId={candidate.id} /> 
+      <h2 style={{ color:"#0A2A52", marginTop:"34px" }}>
+  Historial del candidato
+</h2>
+
+<div style={{ display:"grid", gap:"12px", marginTop:"16px" }}>
+  {(activities || []).map((activity:any) => (
+    <div
+      key={activity.id}
+      style={{
+        padding:"18px",
+        border:"1px solid #e5e7eb",
+        borderRadius:"10px",
+        background:"#fff"
+      }}
+    >
+      <div style={{ fontWeight:700, color:"#0A2A52", marginBottom:"6px" }}>
+        {activity.activity_type} ·{" "}
+        {new Date(activity.created_at).toLocaleString("es-MX", {
+          timeZone:"America/Cancun",
+          day:"2-digit",
+          month:"2-digit",
+          year:"numeric",
+          hour:"2-digit",
+          minute:"2-digit"
+        })}
+      </div>
+
+      <div style={{ marginBottom:"8px" }}>
+        {activity.description || "Sin descripción"}
+      </div>
+
+      {activity.result && (
+        <div style={{ marginBottom:"6px" }}>
+          <strong>Resultado / acuerdos:</strong> {activity.result}
+        </div>
+      )}
+
+      {activity.next_action && (
+        <div style={{ marginBottom:"6px" }}>
+          <strong>Próxima acción:</strong> {activity.next_action}
+        </div>
+      )}
+
+      {activity.follow_up_at && (
+        <div>
+          <strong>Próximo seguimiento:</strong>{" "}
+          {new Date(activity.follow_up_at).toLocaleString("es-MX", {
+            timeZone:"America/Cancun",
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+          })}
+        </div>
+      )}
+    </div>
+  ))}
+
+  {!activities?.length && (
+    <div style={{ color:"#64748b" }}>
+      Todavía no hay actividades registradas para este candidato.
+    </div>
+  )}
+</div>  
       </main>
+      
     </>
   );
 }
