@@ -10,7 +10,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Email y consentimiento son obligatorios" }, { status: 400 });
     }
 
-    const { score, classification, flags } = calculateScore(lead);
+   const {
+  score,
+  professionalScore,
+  germanyReadiness,
+  classification,
+  horizon,
+  gaps,
+  flags,
+ 
+} = calculateScore(lead);
+
+
     const db = supabaseAdmin();
 
     // Busca duplicado por email.
@@ -42,10 +53,14 @@ export async function POST(req: Request) {
       phone: lead.phone,
       consent: true,
       consented_at: new Date().toISOString(),
-      score,
-      classification,
-      flags,
-      manual_status: "Nuevo",
+     score,
+professional_score: professionalScore,
+germany_readiness: germanyReadiness,
+classification,
+horizon,
+gaps,
+flags,
+manual_status: "Nuevo",
       utm_source: lead.utm_source || null,
       utm_medium: lead.utm_medium || null,
       utm_campaign: lead.utm_campaign || null,
