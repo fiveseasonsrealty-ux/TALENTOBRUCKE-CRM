@@ -1,5 +1,5 @@
 import { supabaseAdmin } from "../../../lib/supabaseAdmin";
-
+import AgendaClient from "./AgendaClient";
 export const dynamic = "force-dynamic";
 
 export default async function AgendaPage() {
@@ -63,89 +63,9 @@ export default async function AgendaPage() {
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gap: "12px",
-          }}
-        >
-          {rows.map((activity: any) => {
-            const candidate = activity.candidates;
-
-            return (
-              <a
-                key={activity.id}
-                href={`/crm/candidato/${activity.candidate_id}`}
-                style={{
-                  display: "block",
-                  padding: "18px",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "10px",
-                  background: "#fff",
-                  textDecoration: "none",
-                  color: "#0A2A52",
-                }}
-              >
-                <div
-                  style={{
-                    fontWeight: 800,
-                    fontSize: "17px",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {candidate
-                    ? `${candidate.first_name || ""} ${
-                        candidate.last_name || ""
-                      }`.trim()
-                    : "Candidato"}
-                </div>
-
-                <div style={{ marginBottom: "6px" }}>
-                  <strong>Fecha:</strong>{" "}
-                  {new Date(activity.follow_up_at).toLocaleString("es-MX", {
-                    timeZone: "America/Cancun",
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </div>
-
-                <div style={{ marginBottom: "6px" }}>
-                  <strong>Próxima acción:</strong>{" "}
-                  {activity.next_action || "Sin acción especificada"}
-                </div>
-
-                <div style={{ marginBottom: "6px" }}>
-                  <strong>Responsable:</strong>{" "}
-                  {activity.responsible || "Sin asignar"}
-                </div>
-
-                <div>
-                  <strong>Canal:</strong>{" "}
-                  {activity.channel || activity.activity_type || "—"}
-                </div>
-              </a>
-            );
-          })}
-
-          {!rows.length && (
-            <div
-              style={{
-                padding: "30px",
-                border: "1px solid #e5e7eb",
-                borderRadius: "10px",
-                background: "#fff",
-                color: "#64748b",
-                textAlign: "center",
-              }}
-            >
-              No hay seguimientos programados.
-            </div>
-          )}
-        </div>
-      </main>
+       
+         <AgendaClient activities={rows as any} />
+          </main>
     </>
   );
 }
