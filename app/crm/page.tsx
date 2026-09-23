@@ -360,43 +360,39 @@ export default async function CRMDashboard() {
           </a>
 
           <div
-            style={{
-              ...linkCardStyle,
-              opacity: 0.65,
-            }}
-          >
-            <div
-              style={{
-                fontSize: "20px",
-                fontWeight: 800,
-                marginBottom: "8px",
-              }}
-            >
-              Actividades
-            </div>
+           <a href="/crm/agenda" style={linkCardStyle}>
+  <div
+    style={{
+      fontSize: "20px",
+      fontWeight: 800,
+      marginBottom: "8px",
+    }}
+  >
+    Agenda
+  </div>
 
-            <div
-              style={{
-                color: "#64748b",
-                lineHeight: 1.5,
-              }}
-            >
-              Seguimiento de contactos, diagnósticos,
-              notas y próximas acciones.
-            </div>
+  <div
+    style={{
+      color: "#64748b",
+      lineHeight: 1.5,
+    }}
+  >
+    Gestiona seguimientos, próximas acciones y tareas
+    pendientes con candidatos.
+  </div>
 
-            <div
-              style={{
-                marginTop: "18px",
-                fontWeight: 800,
-                color: "#64748b",
-              }}
-            >
-              PRÓXIMAMENTE
-            </div>
-          </div>
-        </div>
-      </main>
-    </>
-  );
+  <div
+    style={{
+      marginTop: "18px",
+      fontWeight: 800,
+      color: "#D9A514",
+    }}
+  >
+    ABRIR AGENDA →
+  </div>
+</a>
+ </div>
+ </main>
+ </>
+ );
 }
