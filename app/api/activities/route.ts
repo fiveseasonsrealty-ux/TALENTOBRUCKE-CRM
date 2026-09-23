@@ -47,7 +47,7 @@ export async function POST(req: Request) {
         description,
         result: result || null,
         next_action: nextAction || null,
-        follow_up_at: followUpAt || null,
+       follow_up_at: followUpAt ? `${followUpAt}:00-05:00` : null,
         responsible: responsible || null,
         channel: channel || null,
       })
