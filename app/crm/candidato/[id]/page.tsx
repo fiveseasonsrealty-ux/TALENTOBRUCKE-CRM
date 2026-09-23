@@ -358,7 +358,11 @@ const { data: activities } = await db
           <strong>Próxima acción:</strong> {activity.next_action}
         </div>
       )}
-
+{activity.responsible && (
+  <div style={{ marginBottom:"6px" }}>
+    <strong>Responsable:</strong> {activity.responsible}
+  </div>
+)}
       {activity.follow_up_at && (
         <div>
           <strong>Próximo seguimiento:</strong>{" "}
