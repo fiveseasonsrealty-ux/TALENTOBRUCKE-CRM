@@ -359,7 +359,6 @@ export default async function CRMDashboard() {
             </div>
           </a>
 
-          <div
            <a href="/crm/agenda" style={linkCardStyle}>
   <div
     style={{
