@@ -24,11 +24,24 @@ export default function ActivityForm({
       setMessage("Describe brevemente la actividad realizada.");
       return;
     }
+if (followUpAt && !nextAction.trim()) {
+    setMessage(
+      "Indica la próxima acción antes de programar el seguimiento."
+    );
+    return;
+  }
 
-    setSaving(true);
-    setMessage("");
+  if (followUpAt && !responsible) {
+    setMessage(
+      "Selecciona un responsable antes de programar el seguimiento."
+    );
+    return;
+  }
 
-    try {
+  setSaving(true);
+  setMessage("");
+
+  try {
       const response = await fetch("/api/activities", {
         method: "POST",
         headers: {
@@ -140,9 +153,22 @@ channel: activityType,
             onChange={(e) => setFollowUpAt(e.target.value)}
             style={inputStyle}
           />
+          {followUpAt && (
+  <div
+    style={{
+      marginTop: "6px",
+      fontSize: "12px",
+      color: "#64748b",
+    }}
+  >
+    Al programar un seguimiento, responsable y próxima acción son obligatorios.
+  </div>
+)}
         </div>
         <div>
-  <label style={labelStyle}>Responsable</label>
+  <label style={labelStyle}>
+  Responsable {followUpAt ? "*" : ""}
+</label>
 
   <select
     value={responsible}
@@ -187,7 +213,9 @@ channel: activityType,
       </div>
 
       <div style={{ marginTop: "14px" }}>
-        <label style={labelStyle}>Próxima acción de TalentoBrücke</label>
+     <label style={labelStyle}>
+  Próxima acción de TalentoBrücke {followUpAt ? "*" : ""}
+</label>
 
         <textarea
           value={nextAction}
