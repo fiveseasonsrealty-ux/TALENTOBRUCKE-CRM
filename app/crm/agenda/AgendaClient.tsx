@@ -160,8 +160,20 @@ async function completeFollowUp(activityId: string) {
           FECHA ESPECÍFICA
         </button>
 
-        {view === "date" &&         />
-        )}
+        {view === "date" && (
+  <input
+    type="date"
+    value={selectedDate}
+    onChange={(e) => setSelectedDate(e.target.value)}
+    style={{
+      padding: "9px 12px",
+      border: "1px solid #cbd5e1",
+      borderRadius: "8px",
+      color: "#0A2A52",
+      background: "#fff",
+    }}
+  />
+)}
       </div>
 
       <div style={{ display: "grid", gap: "12px" }}>
