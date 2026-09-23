@@ -15,6 +15,7 @@ export default function ActivityForm({
   const [result, setResult] = useState("");
   const [nextAction, setNextAction] = useState("");
   const [followUpAt, setFollowUpAt] = useState("");
+  const [responsible, setResponsible] = useState("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -40,8 +41,9 @@ export default function ActivityForm({
           result,
           nextAction,
           followUpAt: followUpAt || null,
-          channel: activityType,
-        }),
+         responsible: responsible || null,
+channel: activityType,
+      }),
       });
 
       const data = await response.json();
@@ -55,6 +57,7 @@ export default function ActivityForm({
       setResult("");
       setNextAction("");
       setFollowUpAt("");
+      setResponsible("");
       setMessage("Actividad registrada correctamente.");
 
       router.refresh();
@@ -138,6 +141,19 @@ export default function ActivityForm({
             style={inputStyle}
           />
         </div>
+        <div>
+  <label style={labelStyle}>Responsable</label>
+
+  <select
+    value={responsible}
+    onChange={(e) => setResponsible(e.target.value)}
+    style={inputStyle}
+  >
+    <option value="">Seleccionar responsable</option>
+    <option value="José Manuel">José Manuel</option>
+    <option value="Emiliano">Emiliano</option>
+  </select>
+</div>
       </div>
 
       <div style={{ marginTop: "14px" }}>
