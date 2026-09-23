@@ -19,6 +19,7 @@ export async function POST(req: Request) {
       result,
       nextAction,
       followUpAt,
+      responsible,
       channel,
     } = await req.json();
 
@@ -47,6 +48,7 @@ export async function POST(req: Request) {
         result: result || null,
         next_action: nextAction || null,
         follow_up_at: followUpAt || null,
+        responsible: responsible || null
         channel: channel || null,
       })
       .select("*")
