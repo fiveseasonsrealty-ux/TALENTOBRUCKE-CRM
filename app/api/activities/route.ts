@@ -48,6 +48,7 @@ export async function POST(req: Request) {
         result: result || null,
         next_action: nextAction || null,
        follow_up_at: followUpAt ? `${followUpAt}:00-05:00` : null,
+        follow_up_status: followUpAt ? "PENDING" : null,
         responsible: responsible || null,
         channel: channel || null,
       })
