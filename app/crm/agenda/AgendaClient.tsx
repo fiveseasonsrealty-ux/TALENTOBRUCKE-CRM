@@ -43,13 +43,22 @@ const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   const activityDate = (value: string) =>
     getCancunDate(new Date(value));
+const overdueCount = items.filter((activity) => {
+  if (activity.follow_up_status !== "PENDING") {
+    return false;
+  }
 
+  const date = activityDate(activity.follow_up_at);
+  return date < today;
+}).length;
 const filteredActivities = items.filter((activity) => {
   if (activity.follow_up_status !== "PENDING") {
     return false;
   }
     const date = activityDate(activity.follow_up_at);
-
+if (view === "overdue") {
+  return date < today;
+}
     if (view === "today") {
       return date === today;
     }
@@ -128,13 +137,21 @@ async function completeFollowUp(activityId: string) {
           marginBottom: "22px",
         }}
       >
-        <button
-          type="button"
-          style={buttonStyle(view === "today")}
-          onClick={() => setView("today")}
-        >
-          HOY
-        </button>
+       <button
+  type="button"
+  style={buttonStyle(view === "overdue")}
+  onClick={() => setView("overdue")}
+>
+  VENCIDOS {overdueCount > 0 ? `(${overdueCount})` : ""}
+</button>
+
+<button
+  type="button"
+  style={buttonStyle(view === "today")}
+  onClick={() => setView("today")}
+>
+  HOY
+</button>
 
         <button
           type="button"
