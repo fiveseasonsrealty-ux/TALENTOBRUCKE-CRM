@@ -13,6 +13,7 @@ export default async function AgendaPage() {
       activity_type,
       next_action,
       follow_up_at,
+      follow_up_status,
       responsible,
       channel,
       candidates (
