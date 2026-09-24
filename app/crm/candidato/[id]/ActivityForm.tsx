@@ -250,17 +250,30 @@ channel: activityType,
       </div>
 
       {message && (
-        <div
-          style={{
-            marginTop: "12px",
-            color: "#475569",
-            fontSize: "13px",
-            fontWeight: 600,
-          }}
-        >
-          {message}
-        </div>
-      )}
+  <div
+    style={{
+      marginTop: "14px",
+      padding: "12px 14px",
+      color: message === "Actividad registrada correctamente."
+        ? "#166534"
+        : "#B91C1C",
+      background:
+        message === "Actividad registrada correctamente."
+          ? "#F0FDF4"
+          : "#FEF2F2",
+      border:
+        message === "Actividad registrada correctamente."
+          ? "1px solid #BBF7D0"
+          : "1px solid #FECACA",
+      borderRadius: "8px",
+      fontSize: "16px",
+      fontWeight: 700,
+      lineHeight: 1.4,
+    }}
+  >
+    {message}
+  </div>
+)}
     </div>
   );
 }
