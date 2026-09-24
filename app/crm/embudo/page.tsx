@@ -54,7 +54,7 @@ export default async function EmbudoPage() {
           </div>
 
           <a className="btn secondary" href="/crm">
-            VOLVER A LISTA
+            VOLVER AL DASHBOARD
           </a>
         </div>
       </header>
@@ -83,15 +83,6 @@ export default async function EmbudoPage() {
             </p>
           </div>
 
-          <div style={{ display: "flex", gap: "8px" }}>
-            <a className="btn secondary" href="/crm">
-              LISTA
-            </a>
-
-            <a className="btn" href="/crm/embudo">
-              EMBUDO
-            </a>
-          </div>
         </div>
 
         <div
