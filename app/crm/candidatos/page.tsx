@@ -108,10 +108,29 @@ export default async function CandidatesPage() {
                         fontWeight: 700,
                       }}
                     >
-                      {x.first_name} {x.last_name}
-                    </a>
-                    <br />
-                    <small>{x.email}</small>
+{x.first_name} {x.last_name}
+</a>
+
+<span
+  style={{
+    marginLeft: "10px",
+    fontSize: "12px",
+    color: "#64748b",
+    whiteSpace: "nowrap",
+  }}
+>
+  {x.created_at
+    ? new Date(x.created_at).toLocaleDateString("es-MX", {
+        timeZone: "America/Cancun",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
+    : "—"}
+</span>
+
+<br />
+<small>{x.email}</small>
                   </td>
 
                   <td>{x.country}</td>
