@@ -1,7 +1,7 @@
 import { supabaseAdmin } from "../../../../lib/supabaseAdmin";
 import StatusSelector from "./StatusSelector";
 import ActivityForm from "./ActivityForm";
-
+import EmailForm from "./EmailForm";
 export const dynamic = "force-dynamic";
 
 function value(v: any) {
@@ -307,6 +307,18 @@ const { data: activities } = await db
   }
 />
         </div>
+        <h2 style={{ color: "#0A2A52", marginTop: "34px" }}>
+  Comunicación
+</h2>
+
+<p style={{ color: "#64748b", marginBottom: "18px" }}>
+  Envía comunicaciones al candidato directamente desde el CRM.
+</p>
+
+<EmailForm
+  candidateId={candidate.id}
+  candidateEmail={candidate.email || ""}
+/>
        <h2 style={{ color:"#0A2A52", marginTop:"34px" }}>
   Seguimiento del candidato
 </h2>
