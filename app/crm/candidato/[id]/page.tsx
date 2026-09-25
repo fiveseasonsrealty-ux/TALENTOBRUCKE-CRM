@@ -103,7 +103,7 @@ const { data: activities } = await db
   if (error || !candidate) {
     return (
       <main className="container" style={{ paddingTop: "40px" }}>
-        <a href="/crm">← Volver al CRM</a>
+        <a href="/crm">← VOLVER AL DASHBOARD</a>
         <h1 style={{ color: "#0A2A52" }}>Candidato no encontrado</h1>
         <p>No fue posible cargar la ficha del candidato.</p>
       </main>
