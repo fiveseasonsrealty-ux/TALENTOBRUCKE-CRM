@@ -45,7 +45,7 @@ export default async function AgendaPage() {
           </div>
 
           <a className="btn secondary" href="/crm">
-            VOLVER AL CRM
+           VOLVER AL DASHBOARD
           </a>
         </div>
       </header>
