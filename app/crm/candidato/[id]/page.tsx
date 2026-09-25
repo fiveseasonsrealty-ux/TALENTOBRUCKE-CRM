@@ -118,7 +118,7 @@ const { data: activities } = await db
             TALENTO<span>BRÜCKE</span> CRM
           </div>
           <a className="btn secondary" href="/crm">
-            VOLVER AL CRM
+            VOLVER AL DASHBOARD
           </a>
         </div>
       </header>
