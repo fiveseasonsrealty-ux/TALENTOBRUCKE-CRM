@@ -8,6 +8,8 @@ export default async function CRMDashboard() {
   const { data: candidates, error } = await db
     .from("candidates")
     .select("*")
+    .or("studies_completed.is.null,studies_completed.eq.true")
+    .neq("manual_status", "No apto")
     .order("created_at", { ascending: false })
     .limit(500);
 
@@ -29,11 +31,11 @@ export default async function CRMDashboard() {
   ).length;
 
   const review = rows.filter(
-    (x: any) => x.manual_status === "Por revisar"
+    (x: any) => x.manual_status === "Videoconferencia"
   ).length;
 
   const contact = rows.filter(
-    (x: any) => x.manual_status === "Contactar"
+    (x: any) => x.manual_status === "Contactado"
   ).length;
 
   const potential = rows.filter(
@@ -190,7 +192,7 @@ export default async function CRMDashboard() {
                 textTransform: "uppercase",
               }}
             >
-              Por revisar
+              Videoconferencia
             </div>
 
             <div
@@ -214,7 +216,7 @@ export default async function CRMDashboard() {
                 textTransform: "uppercase",
               }}
             >
-              Contactar
+              Contactado
             </div>
 
             <div

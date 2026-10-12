@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { supabaseAdmin } from "../../../lib/supabaseAdmin";
 import { calculateScore } from "../../../lib/scoring";
+import { processInvitations } from "../../../lib/invitations";
 
 export async function POST(req: Request) {
   try {
@@ -25,12 +26,13 @@ export async function POST(req: Request) {
     const db = supabaseAdmin();
 
     // Busca duplicado por email.
-    const { data: existing } = await db
+    const { data: existing, error: lookupError } = await db
       .from("candidates")
-      .select("id, first_touch_source, first_touch_campaign")
+      .select("id, first_touch_source, first_touch_campaign, manual_status")
       .eq("email", lead.email.toLowerCase())
       .maybeSingle();
 
+    if (lookupError) throw lookupError;
     const payload = {
       first_name: lead.first_name,
       last_name: lead.last_name,
@@ -60,7 +62,7 @@ classification,
 horizon,
 gaps,
 flags,
-manual_status: "Nuevo",
+...(existing ? {} : { manual_status: "Nuevo" }),
       utm_source: lead.utm_source || null,
       utm_medium: lead.utm_medium || null,
       utm_campaign: lead.utm_campaign || null,
@@ -98,7 +100,10 @@ manual_status: "Nuevo",
 
     if (result.error) throw result.error;
 
-    // Aquí añadiremos después Meta Conversions API y email interno.
+    after(async () => {
+      try { await processInvitations(result.data!.id); }
+      catch { console.error("Invitación pendiente; revisar panel de invitaciones."); }
+    });
     return NextResponse.json({
       ok: true,
       candidate_id: result.data?.id

@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-  if (!request.nextUrl.pathname.startsWith("/crm")) {
+  if (request.nextUrl.pathname === "/api/invitations/cron") {
+    const secret = process.env.CRON_SECRET;
+    return secret && request.headers.get("authorization") === `Bearer ${secret}`
+      ? NextResponse.next() : new NextResponse("No autorizado", { status: 401 });
+  }
+  if (!(request.nextUrl.pathname.startsWith("/crm") || request.nextUrl.pathname.startsWith("/api/"))) {
     return NextResponse.next();
   }
 
@@ -36,5 +41,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/crm/:path*"]
+  matcher: ["/crm/:path*", "/api/email", "/api/activities", "/api/follow-ups", "/api/candidates/:path*", "/api/invitations/:path*"]
 };

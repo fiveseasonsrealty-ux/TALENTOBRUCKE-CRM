@@ -1,16 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "../../../../lib/supabaseAdmin";
 
-const allowedStatuses = [
-  "Nuevo",
-  "Por revisar",
-  "Contactar",
-  "Contactado",
-  "Diagnóstico programado",
-  "En evaluación",
-  "Candidato potencial",
-  "En seguimiento",
-];
+import { allowedStatuses } from "../../../../lib/crm";
 
 export async function POST(req: Request) {
   try {

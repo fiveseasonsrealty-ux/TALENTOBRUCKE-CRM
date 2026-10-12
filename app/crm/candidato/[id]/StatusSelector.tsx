@@ -3,16 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const statuses = [
-  "Nuevo",
-  "Por revisar",
-  "Contactar",
-  "Contactado",
-  "Diagnóstico programado",
-  "En evaluación",
-  "Candidato potencial",
-  "En seguimiento",
-];
+import { allowedStatuses as statuses } from "../../../../lib/crm";
 
 export default function StatusSelector({
   candidateId,
@@ -101,7 +92,7 @@ export default function StatusSelector({
             fontWeight: 600,
           }}
         >
-          {statuses.map((item) => (
+          {Array.from(new Set([currentStatus || "Nuevo", ...statuses])).map((item) => (
             <option key={item} value={item}>
               {item}
             </option>

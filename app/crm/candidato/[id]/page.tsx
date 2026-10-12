@@ -236,7 +236,7 @@ const { data: activities } = await db
           <Field title="Fuente" value={candidate.utm_source} />
           <Field title="Medio" value={candidate.utm_medium} />
           <div>
-  <StatusSelector candidateId={candidate.id} currentStatus={candidate.manual_status || "Nuevo"} />
+  {candidate.studies_completed === false ? <p><strong>No apto: estudios incompletos.</strong> Expediente conservado y excluido del listado principal y de las invitaciones.</p> : <StatusSelector candidateId={candidate.id} currentStatus={candidate.manual_status || "Nuevo"} />}
 </div>
         </div>
 

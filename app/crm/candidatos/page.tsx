@@ -22,12 +22,17 @@ function label(c: string) {
   )[c] || c;
 }
 
-export default async function CandidatesPage() {
+export default async function CandidatesPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
+  const archived = (await searchParams).view === "no-aptos";
   const db = supabaseAdmin();
 
-  const { data: candidates, error } = await db
+  let query = db
     .from("candidates")
-    .select("*")
+    .select("*");
+  query = archived
+    ? query.or("studies_completed.eq.false,manual_status.eq.No apto")
+    : query.or("studies_completed.is.null,studies_completed.eq.true").neq("manual_status", "No apto");
+  const { data: candidates, error } = await query
     .order("created_at", { ascending: false })
     .limit(500);
 
@@ -57,8 +62,8 @@ export default async function CandidatesPage() {
 
       <main className="container">
         <div className="crm-head">
-          <h1 style={{ color: "#0A2A52" }}>Candidatos</h1>
-          <p>Base completa de candidatos captados por TalentoBrücke.</p>
+          <h1 style={{ color: "#0A2A52" }}>{archived ? "No aptos · Expedientes conservados" : "Candidatos"}</h1>
+          <p>Los expedientes con estudios incompletos se conservan en No aptos.</p>
         </div>
 
         <div
@@ -69,6 +74,8 @@ export default async function CandidatesPage() {
             flexWrap: "wrap",
           }}
         >
+          <a className="btn secondary" href={archived ? "/crm/candidatos" : "/crm/candidatos?view=no-aptos"}>{archived ? "VER CANDIDATOS" : "VER NO APTOS"}</a>
+          <a className="btn secondary" href="/crm/invitaciones">INVITACIONES</a>
           <a className="btn secondary" href="/crm/embudo">
             VER EMBUDO
           </a>
@@ -148,7 +155,7 @@ export default async function CandidatesPage() {
                     </span>
                   </td>
 
-                  <td>{x.manual_status || "Nuevo"}</td>
+                  <td>{x.studies_completed === false ? "No apto" : x.manual_status || "Nuevo"}</td>
                   <td>{x.utm_campaign || "—"}</td>
                   <td>{x.utm_content || x.ad_id || "—"}</td>
 

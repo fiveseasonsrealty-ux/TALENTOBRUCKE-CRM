@@ -2,16 +2,7 @@ import { supabaseAdmin } from "../../../lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
 
-const stages = [
-  { key: "Nuevo", label: "Nuevos" },
-  { key: "Por revisar", label: "Por revisar" },
-  { key: "Contactar", label: "Contactar" },
-  { key: "Contactado", label: "Contactados" },
-  { key: "Diagnóstico programado", label: "Diagnóstico programado" },
-  { key: "En evaluación", label: "En evaluación" },
-  { key: "Candidato potencial", label: "Candidatos potenciales" },
-  { key: "En seguimiento", label: "En seguimiento" },
-];
+import { stages } from "../../../lib/crm";
 
 function classificationLabel(c: string) {
   return (
@@ -31,6 +22,8 @@ export default async function EmbudoPage() {
   const { data: candidates, error } = await db
     .from("candidates")
     .select("*")
+    .or("studies_completed.is.null,studies_completed.eq.true")
+    .neq("manual_status", "No apto")
     .order("created_at", { ascending: false })
     .limit(500);
 
@@ -79,7 +72,8 @@ export default async function EmbudoPage() {
             </h1>
 
             <p style={{ margin: 0 }}>
-              Seguimiento del proceso de cada candidato.
+              Seguimiento del proceso de cada candidato. <a href="/crm/candidatos">Revisar listado completo</a>
+              {rows.some((c: any) => !stages.includes(c.manual_status || "Nuevo")) && <strong> Hay expedientes con estados anteriores: asígnales una nueva etapa desde el listado. Se conservan y no reciben invitaciones automáticas.</strong>}
             </p>
           </div>
 
@@ -94,7 +88,8 @@ export default async function EmbudoPage() {
             alignItems: "flex-start",
           }}
         >
-          {stages.map((stage) => {
+          {stages.map((key) => {
+            const stage = {key, label: key};
             const stageCandidates = rows.filter(
               (candidate: any) =>
                 (candidate.manual_status || "Nuevo") === stage.key
