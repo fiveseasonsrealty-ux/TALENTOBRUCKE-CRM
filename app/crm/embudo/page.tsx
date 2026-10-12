@@ -1,3 +1,4 @@
+import ScrollableBoard from "./ScrollableBoard";
 import { supabaseAdmin } from "../../../lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
@@ -79,15 +80,7 @@ export default async function EmbudoPage() {
 
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "16px",
-            overflowX: "auto",
-            paddingBottom: "20px",
-            alignItems: "flex-start",
-          }}
-        >
+        <ScrollableBoard>
           {stages.map((key) => {
             const stage = {key, label: key};
             const stageCandidates = rows.filter(
@@ -217,7 +210,7 @@ export default async function EmbudoPage() {
               </div>
             );
           })}
-        </div>
+        </ScrollableBoard>
       </main>
     </>
   );

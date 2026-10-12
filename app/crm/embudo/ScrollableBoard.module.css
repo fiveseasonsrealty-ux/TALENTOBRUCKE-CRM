@@ -1,0 +1,26 @@
+.wrapper { padding: 0 48px; }
+.board {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 20px;
+  align-items: flex-start;
+}
+.board > * { flex-shrink: 0; }
+.arrow {
+  position: fixed;
+  z-index: 30;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 52px;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  background: #0a2a52;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0003;
+}
+.arrow:not(:disabled):hover { background: #17477d; }
+.arrow:disabled { background: #64748b; opacity: .55; cursor: default; }
+.arrow:focus-visible, .board:focus-visible { outline: 3px solid #d9a514; outline-offset: 3px; }
