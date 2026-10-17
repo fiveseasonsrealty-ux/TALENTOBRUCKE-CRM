@@ -22,30 +22,73 @@ function label(c: string) {
   )[c] || c;
 }
 
-export default async function CandidatesPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
-  const archived = (await searchParams).view === "no-aptos";
+function normalize(text: string | null | undefined) {
+  return (text || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
+function countryKey(country: string | null) {
+  const value = normalize(country);
+  if (["mexico", "mx", "mex"].includes(value)) return "Mexico";
+  if (["colombia", "co", "col"].includes(value)) return "Colombia";
+  return "Otro";
+}
+
+function countryLabel(country: string | null) {
+  const key = countryKey(country);
+  return key === "Mexico" ? "México" : key === "Colombia" ? "Colombia" : country || "Sin país registrado";
+}
+
+type SearchParams = { view?: string; country?: string; q?: string; page?: string };
+type CandidateIndex = { id: string; first_name: string | null; last_name: string | null; country: string | null };
+
+export default async function CandidatesPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const params = await searchParams;
+  const archived = params.view === "no-aptos";
+  const country = ["Mexico", "Colombia", "Otro"].includes(params.country || "") ? params.country! : "";
+  const search = (params.q || "").trim().slice(0, 120);
+  const tokens = normalize(search).split(/\s+/).filter(Boolean);
   const db = supabaseAdmin();
 
-  let query = db
-    .from("candidates")
-    .select("*");
-  query = archived
-    ? query.or("studies_completed.eq.false,manual_status.eq.No apto")
-    : query.or("studies_completed.is.null,studies_completed.eq.true").neq("manual_status", "No apto");
-  const { data: candidates, error } = await query
-    .order("created_at", { ascending: false })
-    .limit(500);
-
-  if (error) {
-    return (
-      <main className="container crm-head">
-        <h1>Error cargando candidatos</h1>
-        <p>{error.message}</p>
-      </main>
-    );
+  // Search all records, including beyond the old 500-row limit. Keep this index
+  // on the server and retrieve full details only for the visible page.
+  const index: CandidateIndex[] = [];
+  let error: { message: string } | null = null;
+  for (let offset = 0; ; offset += 500) {
+    let query = db.from("candidates").select("id, first_name, last_name, country");
+    query = archived
+      ? query.or("studies_completed.eq.false,manual_status.eq.No apto")
+      : query.or("studies_completed.is.null,studies_completed.eq.true").neq("manual_status", "No apto");
+    const result = await query.order("created_at", { ascending: false }).order("id", {ascending: false}).range(offset, offset + 499);
+    if (result.error) { error = result.error; break; }
+    index.push(...(result.data || []));
+    if ((result.data?.length || 0) < 500) break;
   }
+  const matches = index.filter(c => {
+    const name = normalize(`${c.first_name || ""} ${c.last_name || ""}`);
+    return (!country || countryKey(c.country) === country) && tokens.every(token => name.includes(token));
+  });
+  const pageSize = 50;
+  const pages = Math.max(1, Math.ceil(matches.length / pageSize));
+  const requestedPage = Number(params.page);
+  const page = Math.min(pages, Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1);
+  const ids = matches.slice((page - 1) * pageSize, page * pageSize).map(c => c.id);
+  let rows: any[] = [];
+  if (!error && ids.length) {
+    const result = await db.from("candidates").select("*").in("id", ids);
+    error = result.error;
+    const byId = new Map((result.data || []).map(c => [c.id, c]));
+    rows = ids.map(id => byId.get(id)).filter(Boolean);
+  }
+  if (error) return <main className="container crm-head"><h1>Error cargando candidatos</h1><p>No se pudo cargar la lista. Intenta recargar la página.</p></main>;
 
-  const rows = candidates || [];
+  function listUrl(nextPage: number, nextArchived = archived, clear = false) {
+    const query = new URLSearchParams();
+    if (nextArchived) query.set("view", "no-aptos");
+    if (!clear && country) query.set("country", country);
+    if (!clear && search) query.set("q", search);
+    if (nextPage > 1) query.set("page", String(nextPage));
+    return `/crm/candidatos${query.size ? `?${query}` : ""}`;
+  }
 
   return (
     <>
@@ -74,7 +117,7 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
             flexWrap: "wrap",
           }}
         >
-          <a className="btn secondary" href={archived ? "/crm/candidatos" : "/crm/candidatos?view=no-aptos"}>{archived ? "VER CANDIDATOS" : "VER NO APTOS"}</a>
+          <a className="btn secondary" href={listUrl(1, !archived)}>{archived ? "VER CANDIDATOS" : "VER NO APTOS"}</a>
           <a className="btn secondary" href="/crm/invitaciones">INVITACIONES</a>
           <a className="btn secondary" href="/crm/embudo">
             VER EMBUDO
@@ -83,6 +126,27 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
             DASHBOARD
           </a>
         </div>
+
+        <form action="/crm/candidatos" method="get" style={{ display: "flex", gap: "16px", alignItems: "flex-end", flexWrap: "wrap", padding: "20px", background: "#f1f5f9", borderRadius: "12px", marginBottom: "20px" }}>
+          {archived && <input type="hidden" name="view" value="no-aptos" />}
+          <div style={{ flex: "1 1 260px" }}>
+            <label htmlFor="candidate-search" style={{display:"block", fontWeight:700, marginBottom:6}}>Buscar por nombre o apellido</label>
+            <input id="candidate-search" name="q" type="search" defaultValue={search} key={`q-${search}`} maxLength={120}
+              placeholder="Ej.: José Martínez" style={{width:"100%", padding:12, border:"1px solid #94a3b8", borderRadius:8}} />
+          </div>
+          <div>
+            <label htmlFor="candidate-country" style={{display:"block", fontWeight:700, marginBottom:6}}>País de residencia</label>
+            <select id="candidate-country" name="country" defaultValue={country} key={`country-${country}`} style={{padding:12, border:"1px solid #94a3b8", borderRadius:8, minWidth:180}}>
+              <option value="">Todos los países</option>
+              <option value="Mexico">México</option>
+              <option value="Colombia">Colombia</option>
+              <option value="Otro">Otros / Sin país</option>
+            </select>
+          </div>
+          <button className="btn" type="submit">BUSCAR</button>
+          <a className="btn secondary" href={listUrl(1, archived, true)}>LIMPIAR</a>
+        </form>
+        <p>{matches.length} {matches.length === 1 ? "candidato encontrado" : "candidatos encontrados"}{country ? ` · ${country === "Mexico" ? "México" : country === "Otro" ? "Otros / Sin país" : country}` : ""}{archived ? " · No aptos" : ""}.</p>
 
         <div className="table-wrap">
           <table>
@@ -140,7 +204,7 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
 <small>{x.email}</small>
                   </td>
 
-                  <td>{x.country}</td>
+                  <td>{countryLabel(x.country)}</td>
                   <td>{x.profile}</td>
                   <td>{x.specialty}</td>
                   <td>{x.experience_years}</td>
@@ -183,13 +247,18 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
               {!rows.length && (
                 <tr>
                   <td colSpan={12}>
-                    Todavía no hay candidatos registrados.
+                    No hay candidatos que coincidan con esta búsqueda en esta lista. Prueba otro nombre, cambia el país o consulta la lista de No aptos.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+        {pages > 1 && <nav aria-label="Páginas de candidatos" style={{display:"flex", gap:16, alignItems:"center", flexWrap:"wrap", margin:"24px 0"}}>
+          {page > 1 && <a className="btn secondary" href={listUrl(page - 1)}>ANTERIOR</a>}
+          <span>Página {page} de {pages} · Hasta 50 candidatos por página</span>
+          {page < pages && <a className="btn secondary" href={listUrl(page + 1)}>SIGUIENTE</a>}
+        </nav>}
       </main>
     </>
   );
