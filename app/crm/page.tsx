@@ -6,12 +6,20 @@ export const dynamic = "force-dynamic";
 export default async function CRMDashboard() {
   const db = supabaseAdmin();
 
-  const { data: candidates, error } = await db
+  const [candidateResult, registeredResult, activeResult, excludedResult] = await Promise.all([
+    db
     .from("candidates")
     .select("*")
     .or(activeCandidateFilter)
     .order("created_at", { ascending: false })
-    .limit(500);
+    .limit(500),
+    db.from("candidates").select("id", { count: "exact", head: true }),
+    db.from("candidates").select("id", { count: "exact", head: true }).or(activeCandidateFilter),
+    db.from("candidates").select("id", { count: "exact", head: true }).or(excludedCandidateFilter),
+  ]);
+
+  const { data: candidates } = candidateResult;
+  const error = candidateResult.error || registeredResult.error || activeResult.error || excludedResult.error;
 
   if (error) {
     return (
@@ -28,20 +36,6 @@ export default async function CRMDashboard() {
 
   const newCandidates = rows.filter(
     (x: any) => !x.manual_status || x.manual_status === "Nuevo"
-  ).length;
-
-  const review = rows.filter(
-    (x: any) => x.manual_status === "Videoconferencia"
-  ).length;
-
-  const contact = rows.filter(
-    (x: any) => x.manual_status === "Contactado"
-  ).length;
-
-  const potential = rows.filter(
-    (x: any) =>
-      x.classification === "A" || x.classification === "B" || x.classification === "HIGH_POTENTIAL" ||
-      x.classification === "POTENTIAL_CANDIDATE"
   ).length;
 
   const averageScore = total
@@ -135,149 +129,22 @@ export default async function CRMDashboard() {
             marginBottom: "38px",
           }}
         >
-          <div style={cardStyle}>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                fontWeight: 700,
-                textTransform: "uppercase",
-              }}
-            >
-              Total candidatos
+          {[
+            { label: "Total candidatos", count: registeredResult.count ?? 0 },
+            { label: "Nuevos", count: newCandidates },
+            { label: "Potenciales (aptos)", count: activeResult.count ?? 0 },
+            { label: "No aptos", count: excludedResult.count ?? 0 },
+            { label: "Score promedio", count: averageScore },
+          ].map(({ label, count }) => (
+            <div key={label} style={cardStyle}>
+              <div style={{ fontSize: "12px", color: "#64748b", fontWeight: 700, textTransform: "uppercase" }}>
+                {label}
+              </div>
+              <div style={{ fontSize: "32px", fontWeight: 800, color: "#0A2A52", marginTop: "8px" }}>
+                {count}
+              </div>
             </div>
-
-            <div
-              style={{
-                fontSize: "32px",
-                fontWeight: 800,
-                color: "#0A2A52",
-                marginTop: "8px",
-              }}
-            >
-              {total}
-            </div>
-          </div>
-
-          <div style={cardStyle}>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                fontWeight: 700,
-                textTransform: "uppercase",
-              }}
-            >
-              Nuevos
-            </div>
-
-            <div
-              style={{
-                fontSize: "32px",
-                fontWeight: 800,
-                color: "#0A2A52",
-                marginTop: "8px",
-              }}
-            >
-              {newCandidates}
-            </div>
-          </div>
-
-          <div style={cardStyle}>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                fontWeight: 700,
-                textTransform: "uppercase",
-              }}
-            >
-              Videoconferencia
-            </div>
-
-            <div
-              style={{
-                fontSize: "32px",
-                fontWeight: 800,
-                color: "#0A2A52",
-                marginTop: "8px",
-              }}
-            >
-              {review}
-            </div>
-          </div>
-
-          <div style={cardStyle}>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                fontWeight: 700,
-                textTransform: "uppercase",
-              }}
-            >
-              Contactado
-            </div>
-
-            <div
-              style={{
-                fontSize: "32px",
-                fontWeight: 800,
-                color: "#0A2A52",
-                marginTop: "8px",
-              }}
-            >
-              {contact}
-            </div>
-          </div>
-
-          <div style={cardStyle}>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                fontWeight: 700,
-                textTransform: "uppercase",
-              }}
-            >
-              Potenciales
-            </div>
-
-            <div
-              style={{
-                fontSize: "32px",
-                fontWeight: 800,
-                color: "#0A2A52",
-                marginTop: "8px",
-              }}
-            >
-              {potential}
-            </div>
-          </div>
-
-          <div style={cardStyle}>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                fontWeight: 700,
-                textTransform: "uppercase",
-              }}
-            >
-              Score promedio
-            </div>
-
-            <div
-              style={{
-                fontSize: "32px",
-                fontWeight: 800,
-                color: "#0A2A52",
-                marginTop: "8px",
-              }}
-            >
-              {averageScore}
-            </div>
-          </div>
+          ))}
         </div>
 
         <h2
