@@ -7,7 +7,7 @@ export default async function InvitationsPage() {
     .select("*, candidates(first_name,last_name,email)").order("created_at", {ascending:false}).limit(500);
   return <main className="container crm-head"><h1>Invitaciones a videoconferencia</h1>
     <a href="/crm/candidatos">Volver a candidatos</a>
-    <p>Solo perfiles con estudios terminados, score mayor de 50, consentimiento y estado Nuevo. Los contactados quedan excluidos.</p>
+    <p>Solo perfiles con estudios terminados, score de al menos 50, consentimiento y estado Nuevo. Los contactados quedan excluidos.</p>
     <p>Las respuestas llegan a info@talentobruecke.com. «Enviada» significa aceptada por el proveedor; no confirma lectura ni entrega en la bandeja del candidato.</p>
     {error ? <p>No se pudo cargar la cola. Comprueba que se aplicó la migración de invitaciones.</p> : <>
       <ProcessButton />

@@ -8,7 +8,7 @@ const empty = {
   studies_completed:"yes", experience_years:"2-4", sector:"",
   employment_status:"employed", experience_summary:"",
   german_level:"none", english_level:"none", learn_german:"yes",
-  germany_interest:"serious", mobility:"yes", email:"", phone:"", consent:false
+  germany_interest:"serious", mobility:"yes", email:"", phone:"", consent:false, email_consent:false, whatsapp_consent:false
 };
 
 function params() {
@@ -31,7 +31,7 @@ export default function EvaluationPage() {
   const [data,setData] = useState<any>(empty);
   const [status,setStatus] = useState<"idle"|"sending"|"done"|"error">("idle");
 const [consentError,setConsentError] = useState(false);
- const [formError, setFormError] = useState(""); 
+ const [formError, setFormError] = useState("");
 const tracking = useMemo(() => params(), []);
 
   const set = (name:string, value:any) => setData((d:any)=>({...d,[name]:value}));
@@ -52,34 +52,21 @@ const changeStep = (nextStep:number) => {
   }, 50);
 };
   async function submit() {
+    if (data.education === "incomplete" && data.studies_completed === "yes") {
+      setFormError("Confirma si has concluido tus estudios."); return;
+    }
     setStatus("sending");
-    const res = await fetch("/api/leads", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({
-  ...data,
-  phone:
-    data.country === "Mexico"
-      ? `+52${data.phone}`
-      : data.country === "Colombia"
-      ? `+57${data.phone}`
-      : data.phone,
-  ...tracking,
-  landing_page: window.location.pathname
-})
-    });
-    if (res.ok) {
-  if (
-    typeof window !== "undefined" &&
-    typeof (window as any).fbq === "function"
-  ) {
-    (window as any).fbq("track", "Lead");
-  }
-
-  setStatus("done");
-} else {
-  setStatus("error");
-}
+    try {
+      const res = await fetch("/api/leads", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({...data,phone:!data.phone?"":data.country==="Mexico"?"+52"+data.phone:data.country==="Colombia"?"+57"+data.phone:"+"+data.phone,...tracking,landing_page:window.location.pathname})
+      });
+      if (!res.ok) {
+        const result=await res.json();setFormError(result.error || "No pudimos guardar la evaluación.");setStatus("error");return;
+      }
+      if (typeof (window as any).fbq === "function") (window as any).fbq("track","Lead");
+      setStatus("done");
+    } catch {setStatus("error");}
   }
 
   if (status === "done") {
@@ -135,7 +122,7 @@ const changeStep = (nextStep:number) => {
       position: "absolute",
       inset: 0,
       background:
-     "linear-gradient(to bottom, rgba(7,29,58,0) 50%, rgba(7,29,58,0.82) 100%)", 
+     "linear-gradient(to bottom, rgba(7,29,58,0) 50%, rgba(7,29,58,0.82) 100%)",
     }}
   />
 
@@ -154,7 +141,7 @@ const changeStep = (nextStep:number) => {
       Después determinamos cuáles podrían ser los siguientes pasos.
     </p>
   </div>
-</div> 
+</div>
         </div>
       </section>
 
@@ -210,7 +197,7 @@ const changeStep = (nextStep:number) => {
             {step===4 && <>
               <h2>Datos de contacto</h2>
               <Field label="Correo electrónico"><input type="email" value={data.email} onChange={e=>set("email",e.target.value)} /></Field>
-             <Field label="WhatsApp / teléfono">
+             <Field label="Teléfono (opcional)">
   <div style={{display:"flex", gap:"8px"}}>
     <div style={{
       padding:"13px 14px",
@@ -262,8 +249,10 @@ const changeStep = (nextStep:number) => {
     cursor: "pointer",
     accentColor: "#0A2A52"
   }}
-/> Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad de TalentoBrücke y autorizo el contacto relacionado con mi evaluación profesional.</label>
+/> Acepto el tratamiento de mis datos de acuerdo con la Política de Privacidad de TalentoBrücke para gestionar mi evaluación profesional.</label>
               </div>
+<div className="field"><label style={{display:"flex",alignItems:"center",gap:"12px"}}><input style={{width:"20px",height:"20px",minWidth:"20px",margin:0,accentColor:"#0A2A52"}} type="checkbox" checked={data.email_consent} onChange={e=>set("email_consent",e.target.checked)} /> Autorizo recibir mi evaluación y seguimientos por email.</label></div>
+<p className="notice">La autorización de contacto por email es opcional. Puedes retirarla en cualquier momento.</p>
 {formError && (
   <div
     style={{
@@ -279,7 +268,7 @@ const changeStep = (nextStep:number) => {
   >
     {formError}
   </div>
-)}              
+)}
               {consentError && (
   <div
     style={{
@@ -310,8 +299,7 @@ const changeStep = (nextStep:number) => {
   const missingPersonalData =
     !data.first_name?.trim() ||
     !data.last_name?.trim() ||
-    !data.email?.trim() ||
-    !data.phone?.trim();
+    !data.email?.trim();
 
   if (missingPersonalData) {
     setFormError(
@@ -330,7 +318,7 @@ const changeStep = (nextStep:number) => {
   setFormError("");
   setConsentError(false);
   submit();
-}} 
+}}
   >
     {status==="sending" ? "ENVIANDO..." : "ENVIAR MI EVALUACIÓN →"}
   </button>

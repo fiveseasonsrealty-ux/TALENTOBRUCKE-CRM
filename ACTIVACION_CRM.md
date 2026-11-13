@@ -41,3 +41,7 @@ Esta copia está preparada para revisión y despliegue. No se ha modificado prod
 - No se han utilizado credenciales reales ni realizado pruebas de entrega con Resend/Supabase de producción.
 
 Límites heredados: las listas muestran hasta 500 expedientes. La agenda mantiene seguimientos anteriores para no descartarlos. La clasificación profesional existente se conserva; la regla score >50 se aplica a la invitación.
+
+## Documento histórico
+
+Este archivo describe la entrega anterior, incluido el umbral antiguo. No utilizarlo para activar PEI v1.0. Para la preparación actual consultar PEI_PRODUCTION_REVIEW.md y PEI_REVIEW.md. Los envíos y despliegues de producción permanecen sujetos a la revisión y autorización indicadas allí.

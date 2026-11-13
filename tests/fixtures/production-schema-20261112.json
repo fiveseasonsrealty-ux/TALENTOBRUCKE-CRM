@@ -1,0 +1,393 @@
+{
+  "counts": {
+    "candidates": 429,
+    "activities": 963,
+    "invitations": 290
+  },
+  "columns": [
+    {
+      "table": "activities",
+      "column": "id",
+      "type": "uuid"
+    },
+    {
+      "table": "activities",
+      "column": "candidate_id",
+      "type": "uuid"
+    },
+    {
+      "table": "activities",
+      "column": "created_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "activities",
+      "column": "activity_type",
+      "type": "text"
+    },
+    {
+      "table": "activities",
+      "column": "description",
+      "type": "text"
+    },
+    {
+      "table": "activities",
+      "column": "result",
+      "type": "text"
+    },
+    {
+      "table": "activities",
+      "column": "next_action",
+      "type": "text"
+    },
+    {
+      "table": "activities",
+      "column": "follow_up_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "activities",
+      "column": "channel",
+      "type": "text"
+    },
+    {
+      "table": "activities",
+      "column": "responsible",
+      "type": "text"
+    },
+    {
+      "table": "activities",
+      "column": "follow_up_status",
+      "type": "text"
+    },
+    {
+      "table": "candidate_invitations",
+      "column": "candidate_id",
+      "type": "uuid"
+    },
+    {
+      "table": "candidate_invitations",
+      "column": "state",
+      "type": "text"
+    },
+    {
+      "table": "candidate_invitations",
+      "column": "created_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "candidate_invitations",
+      "column": "attempted_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "candidate_invitations",
+      "column": "sent_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "candidate_invitations",
+      "column": "provider_id",
+      "type": "text"
+    },
+    {
+      "table": "candidate_invitations",
+      "column": "detail",
+      "type": "text"
+    },
+    {
+      "table": "candidate_invitations",
+      "column": "recipient",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "id",
+      "type": "uuid"
+    },
+    {
+      "table": "candidates",
+      "column": "created_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "candidates",
+      "column": "updated_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "candidates",
+      "column": "first_name",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "last_name",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "country",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "age_range",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "profile",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "specialty",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "education",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "studies_completed",
+      "type": "boolean"
+    },
+    {
+      "table": "candidates",
+      "column": "experience_years",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "sector",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "employment_status",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "experience_summary",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "german_level",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "english_level",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "learn_german",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "germany_interest",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "mobility",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "email",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "phone",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "consent",
+      "type": "boolean"
+    },
+    {
+      "table": "candidates",
+      "column": "consented_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "candidates",
+      "column": "score",
+      "type": "integer"
+    },
+    {
+      "table": "candidates",
+      "column": "classification",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "flags",
+      "type": "jsonb"
+    },
+    {
+      "table": "candidates",
+      "column": "manual_status",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "notes",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "utm_source",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "utm_medium",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "utm_campaign",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "utm_content",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "utm_term",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "campaign_id",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "adset_id",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "ad_id",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "landing_page",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "first_touch_source",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "first_touch_campaign",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "last_touch_source",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "last_touch_campaign",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "professional_score",
+      "type": "integer"
+    },
+    {
+      "table": "candidates",
+      "column": "germany_readiness",
+      "type": "integer"
+    },
+    {
+      "table": "candidates",
+      "column": "horizon",
+      "type": "text"
+    },
+    {
+      "table": "candidates",
+      "column": "gaps",
+      "type": "jsonb"
+    },
+    {
+      "table": "candidates",
+      "column": "invitation_sent_at",
+      "type": "timestamp with time zone"
+    }
+  ],
+  "constraints": [
+    {
+      "table": "activities",
+      "name": "activities_candidate_id_fkey",
+      "definition": "FOREIGN KEY (candidate_id) REFERENCES candidates(id) ON DELETE CASCADE"
+    },
+    {
+      "table": "activities",
+      "name": "activities_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table": "candidate_invitations",
+      "name": "candidate_invitations_candidate_id_fkey",
+      "definition": "FOREIGN KEY (candidate_id) REFERENCES candidates(id)"
+    },
+    {
+      "table": "candidate_invitations",
+      "name": "candidate_invitations_pkey",
+      "definition": "PRIMARY KEY (candidate_id)"
+    },
+    {
+      "table": "candidate_invitations",
+      "name": "candidate_invitations_state_check",
+      "definition": "CHECK ((state = ANY (ARRAY['pending'::text, 'sending'::text, 'sent'::text, 'review'::text, 'skipped'::text])))"
+    },
+    {
+      "table": "candidates",
+      "name": "candidates_email_key",
+      "definition": "UNIQUE (email)"
+    },
+    {
+      "table": "candidates",
+      "name": "candidates_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table": "candidates",
+      "name": "candidates_score_check",
+      "definition": "CHECK (((score >= 0) AND (score <= 100)))"
+    }
+  ],
+  "functions": [
+    "claim_candidate_invitation",
+    "complete_candidate_invitation",
+    "enqueue_candidate_invitation"
+  ],
+  "extensions": [
+    "plpgsql",
+    "pg_stat_statements",
+    "uuid-ossp",
+    "pgcrypto",
+    "supabase_vault"
+  ]
+}

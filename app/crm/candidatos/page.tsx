@@ -1,10 +1,11 @@
+import { activeCandidateFilter, excludedCandidateFilter } from "../../../lib/crm";
 import { supabaseAdmin } from "../../../lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
 
 function badge(c: string) {
-  if (c === "HIGH_POTENTIAL") return "badge high";
-  if (c === "POTENTIAL_CANDIDATE") return "badge qualified";
+  if (c === "A" || c === "HIGH_POTENTIAL") return "badge high";
+  if (c === "B" || c === "POTENTIAL_CANDIDATE") return "badge qualified";
   if (c === "QUALIFIED_LEAD") return "badge qualified";
   if (c === "NURTURE_LEAD") return "badge nurture";
   return "badge low";
@@ -13,6 +14,7 @@ function badge(c: string) {
 function label(c: string) {
   return (
     {
+      A: "A · Prioritario", B: "B · En preparación", C: "C · Desarrollo",
       HIGH_POTENTIAL: "Candidato prioritario",
       POTENTIAL_CANDIDATE: "Candidato potencial",
       QUALIFIED_LEAD: "Lead cualificado",
@@ -56,8 +58,8 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
   for (let offset = 0; ; offset += 500) {
     let query = db.from("candidates").select("id, first_name, last_name, country");
     query = archived
-      ? query.or("studies_completed.eq.false,manual_status.eq.No apto")
-      : query.or("studies_completed.is.null,studies_completed.eq.true").neq("manual_status", "No apto");
+      ? query.or(excludedCandidateFilter)
+      : query.or(activeCandidateFilter);
     const result = await query.order("created_at", { ascending: false }).order("id", {ascending: false}).range(offset, offset + 499);
     if (result.error) { error = result.error; break; }
     index.push(...(result.data || []));
@@ -106,7 +108,7 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
       <main className="container">
         <div className="crm-head">
           <h1 style={{ color: "#0A2A52" }}>{archived ? "No aptos · Expedientes conservados" : "Candidatos"}</h1>
-          <p>Los expedientes con estudios incompletos se conservan en No aptos.</p>
+          <p>Los expedientes excluidos por formación o perfil se conservan en No aptos.</p>
         </div>
 
         <div
@@ -219,7 +221,7 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
                     </span>
                   </td>
 
-                  <td>{x.studies_completed === false ? "No apto" : x.manual_status || "Nuevo"}</td>
+                  <td>{(x.studies_completed === false || x.pei_eligible === false) ? "No apto" : x.manual_status || "Nuevo"}</td>
                   <td>{x.utm_campaign || "—"}</td>
                   <td>{x.utm_content || x.ad_id || "—"}</td>
 

@@ -2,6 +2,8 @@ import { supabaseAdmin } from "../../../../lib/supabaseAdmin";
 import StatusSelector from "./StatusSelector";
 import ActivityForm from "./ActivityForm";
 import EmailForm from "./EmailForm";
+import PeiControls from "./PeiControls";
+import { peiEmail } from "../../../../lib/peiEmail";
 export const dynamic = "force-dynamic";
 
 function value(v: any) {
@@ -14,6 +16,7 @@ function value(v: any) {
 function label(c: string) {
   return (
     {
+      A: "A · Prioritario", B: "B · En preparación", C: "C · Desarrollo",
       HIGH_POTENTIAL: "Candidato prioritario",
       POTENTIAL_CANDIDATE: "Candidato potencial",
       QUALIFIED_LEAD: "Lead cualificado",
@@ -110,6 +113,8 @@ const { data: activities } = await db
     );
   }
 
+  const {data:evaluations,error:historyError}=await db.from("candidate_evaluations").select("id,created_at,version,reason,snapshot").eq("candidate_id",id).order("created_at",{ascending:false}).limit(100);
+  const draft=candidate.pei_version && candidate.pei_breakdown ? peiEmail(candidate.first_name,{score:candidate.score,classification:candidate.classification,eligible:candidate.pei_eligible,breakdown:candidate.pei_breakdown}) : null;
   return (
     <>
       <header className="header">
@@ -236,7 +241,7 @@ const { data: activities } = await db
           <Field title="Fuente" value={candidate.utm_source} />
           <Field title="Medio" value={candidate.utm_medium} />
           <div>
-  {candidate.studies_completed === false ? <p><strong>No apto: estudios incompletos.</strong> Expediente conservado y excluido del listado principal y de las invitaciones.</p> : <StatusSelector candidateId={candidate.id} currentStatus={candidate.manual_status || "Nuevo"} />}
+  {(candidate.studies_completed === false || candidate.pei_eligible === false) ? <p><strong>No apto: formación o perfil fuera de los criterios.</strong> Expediente conservado y excluido del listado principal y de las invitaciones.</p> : <StatusSelector candidateId={candidate.id} currentStatus={candidate.manual_status || "Nuevo"} />}
 </div>
         </div>
 
@@ -254,21 +259,21 @@ const { data: activities } = await db
           <Field title="Score total" value={candidate.score} />
 
 <Field
-  title="Fortaleza profesional"
+  title={candidate.pei_version ? "Formación, experiencia y especialidad" : "Fortaleza profesional histórica"}
   value={
     candidate.professional_score !== null &&
     candidate.professional_score !== undefined
-      ? `${candidate.professional_score}/60`
+      ? `${candidate.professional_score}/${candidate.pei_version ? 55 : 60}`
       : "Pendiente de recalcular"
   }
 />
 
 <Field
-  title="Preparación Alemania"
+  title={candidate.pei_version ? "Alemán y motivación" : "Preparación Alemania histórica"}
   value={
     candidate.germany_readiness !== null &&
     candidate.germany_readiness !== undefined
-      ? `${candidate.germany_readiness}/40`
+      ? `${candidate.germany_readiness}/${candidate.pei_version ? 45 : 40}`
       : "Pendiente de recalcular"
   }
 />
@@ -307,6 +312,13 @@ const { data: activities } = await db
   }
 />
         </div>
+        <h2>Evaluación PEI</h2>
+<PeiControls candidateId={candidate.id} />
+<p>Versión: {candidate.pei_version || "Histórica · pendiente de recalcular"} · Email: {candidate.email_consent ? "Autorizado" : "Sin autorización"} · Recordatorios: solo email</p>
+{candidate.pei_breakdown && <p>Alemán {candidate.pei_breakdown.german}/35 · Formación {candidate.pei_breakdown.education}/25 · Experiencia {candidate.pei_breakdown.experience}/20 · Especialidad {candidate.pei_breakdown.specialty}/10 · Motivación {candidate.pei_breakdown.motivation}/10</p>}
+<h3>Evaluaciones conservadas</h3>
+{historyError ? <p>No fue posible cargar el histórico. Comprueba la migración PEI.</p> : (evaluations || []).map((e:any)=><p key={e.id}>{new Date(e.created_at).toLocaleString("es-MX",{timeZone:"America/Cancun"})} · {e.version} · {e.snapshot.score}/100 · {label(e.snapshot.classification)} · {e.reason}</p>)}
+{draft && <details><summary>Vista previa del correo PEI · sin envío</summary><h3>{draft.subject}</h3><pre style={{whiteSpace:"pre-wrap",fontFamily:"inherit"}}>{draft.text}</pre></details>}
         <h2 style={{ color: "#0A2A52", marginTop: "34px" }}>
   Comunicación
 </h2>
@@ -327,7 +339,7 @@ const { data: activities } = await db
   Registra contactos, conversaciones, acuerdos y próximas acciones.
 </p>
 
-<ActivityForm candidateId={candidate.id} /> 
+<ActivityForm candidateId={candidate.id} />
       <h2 style={{ color:"#0A2A52", marginTop:"34px" }}>
   Historial del candidato
 </h2>
@@ -396,9 +408,9 @@ const { data: activities } = await db
       Todavía no hay actividades registradas para este candidato.
     </div>
   )}
-</div>  
+</div>
       </main>
-      
+
     </>
   );
 }

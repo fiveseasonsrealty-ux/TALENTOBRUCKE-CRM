@@ -21,6 +21,10 @@ export function supabaseAdmin() {
     );
   }
 
+  if (process.env.VERCEL_ENV === "preview" && new URL(url).origin === "https://ucinvaguveedajfzrifw.supabase.co") {
+    throw new Error("La vista previa requiere una base de pruebas independiente");
+  }
+
   return createClient(url, key.trim(), {
     auth: {
       persistSession: false,
