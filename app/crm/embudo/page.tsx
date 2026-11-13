@@ -1,3 +1,4 @@
+import { activeCandidateFilter, excludedCandidateFilter } from "../../../lib/crm";
 import ScrollableBoard from "./ScrollableBoard";
 import { supabaseAdmin } from "../../../lib/supabaseAdmin";
 
@@ -8,6 +9,7 @@ import { stages } from "../../../lib/crm";
 function classificationLabel(c: string) {
   return (
     {
+      A: "A · Prioritario", B: "B · En preparación", C: "C · Desarrollo",
       HIGH_POTENTIAL: "Prioritario",
       POTENTIAL_CANDIDATE: "Potencial",
       QUALIFIED_LEAD: "Cualificado",
@@ -23,8 +25,7 @@ export default async function EmbudoPage() {
   const { data: candidates, error } = await db
     .from("candidates")
     .select("*")
-    .or("studies_completed.is.null,studies_completed.eq.true")
-    .neq("manual_status", "No apto")
+    .or(activeCandidateFilter)
     .order("created_at", { ascending: false })
     .limit(500);
 
