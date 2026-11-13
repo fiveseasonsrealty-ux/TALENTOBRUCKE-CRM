@@ -1,3 +1,4 @@
+import { activeCandidateFilter, excludedCandidateFilter } from "../../lib/crm";
 import { supabaseAdmin } from "../../lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
@@ -8,8 +9,7 @@ export default async function CRMDashboard() {
   const { data: candidates, error } = await db
     .from("candidates")
     .select("*")
-    .or("studies_completed.is.null,studies_completed.eq.true")
-    .neq("manual_status", "No apto")
+    .or(activeCandidateFilter)
     .order("created_at", { ascending: false })
     .limit(500);
 
@@ -40,7 +40,7 @@ export default async function CRMDashboard() {
 
   const potential = rows.filter(
     (x: any) =>
-      x.classification === "HIGH_POTENTIAL" ||
+      x.classification === "A" || x.classification === "B" || x.classification === "HIGH_POTENTIAL" ||
       x.classification === "POTENTIAL_CANDIDATE"
   ).length;
 
