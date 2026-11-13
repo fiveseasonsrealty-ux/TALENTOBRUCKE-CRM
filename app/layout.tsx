@@ -6,9 +6,11 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+const trackingEnabled = process.env.PEI_TEST_MODE !== "true";
 return (
   <html lang="es">
     <body>
+      {trackingEnabled && <>
       <Script
         id="meta-pixel"
         strategy="afterInteractive"
@@ -39,6 +41,7 @@ return (
           alt=""
         />
       </noscript>
+      </>}
 
       {children}
     </body>
