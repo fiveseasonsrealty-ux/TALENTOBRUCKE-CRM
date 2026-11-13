@@ -6,12 +6,20 @@ export const dynamic = "force-dynamic";
 export default async function CRMDashboard() {
   const db = supabaseAdmin();
 
-  const { data: candidates, error } = await db
+  const [candidateResult, registeredResult, activeResult, excludedResult] = await Promise.all([
+    db
     .from("candidates")
     .select("*")
     .or(activeCandidateFilter)
     .order("created_at", { ascending: false })
-    .limit(500);
+    .limit(500),
+    db.from("candidates").select("id", { count: "exact", head: true }),
+    db.from("candidates").select("id", { count: "exact", head: true }).or(activeCandidateFilter),
+    db.from("candidates").select("id", { count: "exact", head: true }).or(excludedCandidateFilter),
+  ]);
+
+  const { data: candidates } = candidateResult;
+  const error = candidateResult.error || registeredResult.error || activeResult.error || excludedResult.error;
 
   if (error) {
     return (
@@ -28,10 +36,6 @@ export default async function CRMDashboard() {
 
   const newCandidates = rows.filter(
     (x: any) => !x.manual_status || x.manual_status === "Nuevo"
-  ).length;
-
-  const review = rows.filter(
-    (x: any) => x.manual_status === "Videoconferencia"
   ).length;
 
   const contact = rows.filter(
@@ -135,7 +139,12 @@ export default async function CRMDashboard() {
             marginBottom: "38px",
           }}
         >
-          <div style={cardStyle}>
+          {[
+            { label: "Total registrados", count: registeredResult.count ?? 0 },
+            { label: "Activos", count: activeResult.count ?? 0 },
+            { label: "No aptos", count: excludedResult.count ?? 0 },
+          ].map(({ label, count }) => (
+          <div key={label} style={cardStyle}>
             <div
               style={{
                 fontSize: "12px",
@@ -144,7 +153,7 @@ export default async function CRMDashboard() {
                 textTransform: "uppercase",
               }}
             >
-              Total candidatos
+              {label}
             </div>
 
             <div
@@ -155,9 +164,10 @@ export default async function CRMDashboard() {
                 marginTop: "8px",
               }}
             >
-              {total}
+              {count}
             </div>
           </div>
+          ))}
 
           <div style={cardStyle}>
             <div
@@ -180,30 +190,6 @@ export default async function CRMDashboard() {
               }}
             >
               {newCandidates}
-            </div>
-          </div>
-
-          <div style={cardStyle}>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                fontWeight: 700,
-                textTransform: "uppercase",
-              }}
-            >
-              Videoconferencia
-            </div>
-
-            <div
-              style={{
-                fontSize: "32px",
-                fontWeight: 800,
-                color: "#0A2A52",
-                marginTop: "8px",
-              }}
-            >
-              {review}
             </div>
           </div>
 
