@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { canContact } from "../../../lib/contact";
 import { Resend } from "resend";
 import { supabaseAdmin } from "../../../lib/supabaseAdmin";
 
@@ -14,6 +15,10 @@ export async function POST(req: Request) {
       );
     }
 
+    if (process.env.PEI_OUTBOUND_ENABLED !== "true") return NextResponse.json({error:"Envíos desactivados en esta versión de prueba."}, {status:403});
+    const db = supabaseAdmin();
+    const { data: candidate, error: candidateError } = await db.from("candidates").select("*").eq("id", candidateId).single();
+    if (candidateError || !candidate || !canContact(candidate, "email") || candidate.email !== to) return NextResponse.json({error:"Contacto no autorizado para este expediente."}, {status:403});
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
@@ -40,8 +45,6 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
-
-    const db = supabaseAdmin();
 
     const { data: activity, error: activityError } = await db
       .from("activities")
