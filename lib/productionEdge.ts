@@ -17,7 +17,7 @@ export function createProductionEdgeHandler(env:(name:string)=>string|undefined,
   return receiveZoho(req,match[2],{
    enabled:env("PEI_PRODUCTION_RECEIVER_ENABLED")==="true",token:env("ZOHO_PRODUCTION_WEBHOOK_TOKEN")||"",mailbox:"info@talentobruecke.com",
    secret:env("ZOHO_PRODUCTION_WEBHOOK_SECRET"),encryptionKey:env("ZOHO_PRODUCTION_ENCRYPTION_KEY"),enrollUntil:env("ZOHO_PRODUCTION_ENROLL_UNTIL"),
-   allowUnsignedRegistration:false,
+   allowUnsignedRegistration:env("ZOHO_PRODUCTION_ALLOW_UNSIGNED_REGISTRATION")==="true",
   },{
    async loadEncryptedSecret(){const {data,error}=await getDb().from("zoho_webhook_config").select("encrypted_secret").eq("id","zoho-pei-production-v1").maybeSingle();if(error)throw error;return data?.encrypted_secret||null;},
    async saveEncryptedSecret(value){const {error}=await getDb().from("zoho_webhook_config").insert({id:"zoho-pei-production-v1",encrypted_secret:value});if(error?.code==="23505")return false;if(error)throw error;return true;},
