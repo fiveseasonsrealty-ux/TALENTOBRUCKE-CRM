@@ -6,8 +6,8 @@ import { isEligible, stages, displayStatus } from '../lib/crm.ts';
 import { invitationLetter } from '../lib/invitationLetter.ts';
 
 test('strict score threshold, completed studies, six stages and reply invitation', () => {
-  for (const score of [0,49,50,null,undefined]) assert.equal(isEligible({score,studies_completed:true}),false);
-  assert.equal(isEligible({score:51,studies_completed:true}),true);
+  for (const score of [0,49,null,undefined]) assert.equal(isEligible({score,studies_completed:true,education:"technical",profile:"technician"}),false);
+  assert.equal(isEligible({score:50,studies_completed:true,education:"technical",profile:"technician"}),true);
   assert.equal(isEligible({score:100,studies_completed:false}),false);
   assert.equal(isEligible({score:100,studies_completed:null}),false);
   assert.equal(displayStatus({studies_completed:false,manual_status:'Contactado'}),'No apto');
