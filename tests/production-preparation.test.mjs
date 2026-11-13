@@ -47,6 +47,22 @@ test('production sequence uses actual candidate address and approved subject; si
  }finally{await pg.close();}
 });
 
+test('production unsigned enrollment needs explicit opt-in and a short window, then rejects unsigned events',async()=>{
+ let stored=null,events=0;
+ const db={from:()=>({select:()=>({eq:()=>({maybeSingle:async()=>({data:stored?{encrypted_secret:stored}:null})})}),insert:async row=>{stored=row.encrypted_secret;return {error:null};}}),rpc:async()=>{events++;return {error:null};}};
+ const settings={SUPABASE_URL:PRODUCTION_SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY:'fixture',PEI_PRODUCTION_RECEIVER_ENABLED:'true',ZOHO_PRODUCTION_WEBHOOK_TOKEN:route,ZOHO_PRODUCTION_ENCRYPTION_KEY:'ab'.repeat(32),ZOHO_PRODUCTION_ENROLL_UNTIL:new Date(Date.now()+5*60000).toISOString()};
+ const req=()=>new Request(PRODUCTION_SUPABASE_URL+'/functions/v1/pei-production/zoho/'+route,{method:'POST',body:'{}',headers:{'x-hook-secret':secret}});
+ const handler=()=>createProductionEdgeHandler(n=>settings[n],()=>db);
+ assert.equal((await handler()(req())).status,401);
+ settings.ZOHO_PRODUCTION_ALLOW_UNSIGNED_REGISTRATION='true';
+ settings.ZOHO_PRODUCTION_ENROLL_UNTIL=new Date(Date.now()+20*60000).toISOString();
+ assert.equal((await handler()(req())).status,503);
+ settings.ZOHO_PRODUCTION_ENROLL_UNTIL=new Date(Date.now()+5*60000).toISOString();
+ assert.equal((await handler()(req())).status,200);
+ assert.ok(stored.startsWith('v1.'));assert.equal(events,0);
+ assert.equal((await handler()(req())).status,401);assert.equal(events,0);
+});
+
 test('production claims skip legacy, opt-outs, no-consent and uncertain jobs; reservations and failures do not resend',async()=>{
  const {pg,db,id}=await fixture('another@example.test');let sent=0;
  try{
