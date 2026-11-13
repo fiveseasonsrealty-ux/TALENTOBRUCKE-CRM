@@ -1,0 +1,7 @@
+[functions.zoho-pei-receptor]
+# External Zoho callbacks use the receiver's private token + HMAC, not Supabase JWTs.
+verify_jwt = false
+
+[functions.pei-production]
+# Prepared only; cron uses its own Bearer secret and inbound uses a private route plus HMAC.
+verify_jwt = false
