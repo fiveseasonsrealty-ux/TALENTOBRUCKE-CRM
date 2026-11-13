@@ -1,16 +1,18 @@
 import { after, NextResponse } from "next/server";
 import { supabaseAdmin } from "../../../lib/supabaseAdmin";
-import { calculateScore } from "../../../lib/scoring";
+import { calculateScore, validateLead } from "../../../lib/scoring";
 import { processInvitations } from "../../../lib/invitations";
 
 export async function POST(req: Request) {
   try {
     const lead = await req.json();
 
-    if (!lead.email || !lead.consent) {
-      return NextResponse.json({ error: "Email y consentimiento son obligatorios" }, { status: 400 });
+    const validationError = validateLead(lead);
+    if (validationError) {
+      return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
+   const pei = calculateScore(lead);
    const {
   score,
   professionalScore,
@@ -19,8 +21,8 @@ export async function POST(req: Request) {
   horizon,
   gaps,
   flags,
- 
-} = calculateScore(lead);
+
+} = pei;
 
 
     const db = supabaseAdmin();
@@ -29,7 +31,7 @@ export async function POST(req: Request) {
     const { data: existing, error: lookupError } = await db
       .from("candidates")
       .select("id, first_touch_source, first_touch_campaign, manual_status")
-      .eq("email", lead.email.toLowerCase())
+      .eq("email", lead.email.trim().toLowerCase())
       .maybeSingle();
 
     if (lookupError) throw lookupError;
@@ -51,10 +53,18 @@ export async function POST(req: Request) {
       learn_german: lead.learn_german,
       germany_interest: lead.germany_interest,
       mobility: lead.mobility,
-      email: lead.email.toLowerCase(),
+      email: lead.email.trim().toLowerCase(),
       phone: lead.phone,
       consent: true,
+      email_consent: lead.email_consent,
+      whatsapp_consent: false,
+      contact_preferences_at: new Date().toISOString(),
       consented_at: new Date().toISOString(),
+     pei_version: pei.version,
+     pei_breakdown: pei.breakdown,
+     pei_eligible: pei.eligible,
+     evaluation_reason: "FORM_SUBMITTED",
+     evaluation_token: crypto.randomUUID(),
      score,
 professional_score: professionalScore,
 germany_readiness: germanyReadiness,
